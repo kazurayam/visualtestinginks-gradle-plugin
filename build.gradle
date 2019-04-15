@@ -1,0 +1,63 @@
+/*
+ * VisualTesingInKatalonStudio-gradle-plugin/build.gradle
+ *
+ */
+plugins {
+    id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '0.10.1'
+}
+
+group = 'com.kazurayam'
+version = '0.0.0'
+
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+
+ext {
+    artifactId = 'visualtestinginks'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile gradleTestKit()
+    testCompile group: 'org.spockframework', name: 'spock-core', version: '1.3-groovy-2.5'
+}
+
+pluginBundle {
+    website = 'https://github.com/kazurayam/VisualTestingInKatalonStudio'
+    vcsUrl  = 'https://github.com/kazurayam/VisualTestingInKatalonStudio.git'
+    tags    = [ 'katalon', 'katalon-studio', 'webdriver', 'automated-testing' ]
+}
+
+gradlePlugin {
+    plugins {
+        visualTestingInKatalonStudioExportPlugin {
+	    id = "${project.group}.${artifactId}-export"
+	    displayName = "A Gradle plugin that publishes the components of Visual Testing in Katalon Studio to the Gradle Plugin Portal and the Maven Local repository"
+	    description = "This Gradle Plugin exports Katalon Studio components (test cases/test suites/test listener/keywords) that implements Visual Testing feature to repositories"
+	    implementationClass = "${project.group}.${artifactId}.Export"
+	    version = "${project.version}"
+	}
+	visualTestingInKatalonStudioImportPlugin {
+	    id = "${project.group}.${artifactId}-import"
+	    displayName = "A Gradle plugin enables a Katalon Studio project to perform Visual Testing"
+	    description = "This Gradle Plugin imports Katalon Studio components (test cases/test suites/test listener/keywords) that implements Visual Testing feature"
+	    implementationClass = "${project.group}.${artifactId}.Import"
+	    version = "${project.version}"
+        }
+    }
+}
+
+publishing {
+    publications {
+        pluginPublication (MavenPublication) {
+            from       components.java
+	    groupId    "${project.group}"
+	    artifactId "${artifactId}"
+	    version    "${project.version}"
+        }
+    }
+}
