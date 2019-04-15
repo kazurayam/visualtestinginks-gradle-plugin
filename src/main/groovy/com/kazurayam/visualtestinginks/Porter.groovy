@@ -4,7 +4,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
-public class Import extends DefaultTask {
+public class Porter extends DefaultTask {
 
     private String message;
     private String recipient;

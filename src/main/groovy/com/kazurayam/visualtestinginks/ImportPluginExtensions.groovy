@@ -1,7 +1,7 @@
 package com.kazurayam.visualtestinginks
 
-public class ImportPluginExtension {
+public class ImportPluginExtensions {
 
-    String message = 'Hello from ImportPlugin';
+    String message = 'Hello from import';
 
 }

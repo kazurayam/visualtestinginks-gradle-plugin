@@ -4,5 +4,16 @@
 # Ignore Gradle build output directory
 build
 
+
 # emacs
 *~
+
+# Eclipse
+.classpath
+.settings
+.project
+
+# Katalon Studio
+/bin/
+Libs/
+settings/

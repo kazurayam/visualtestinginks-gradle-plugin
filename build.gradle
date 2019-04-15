@@ -32,22 +32,16 @@ pluginBundle {
     tags    = [ 'katalon', 'katalon-studio', 'webdriver', 'automated-testing' ]
 }
 
+// configuration for java-gradle-plugin
 gradlePlugin {
     plugins {
-        visualTestingInKatalonStudioExportPlugin {
-	    id = "${project.group}.${artifactId}-export"
-	    displayName = "A Gradle plugin that publishes the components of Visual Testing in Katalon Studio to the Gradle Plugin Portal and the Maven Local repository"
-	    description = "This Gradle Plugin exports Katalon Studio components (test cases/test suites/test listener/keywords) that implements Visual Testing feature to repositories"
-	    implementationClass = "${project.group}.${artifactId}.Export"
+        visualTestingInKatalonStudioPlugin {
+	    id = "${project.group}.${artifactId}"
 	    version = "${project.version}"
+	    displayName = "A Gradle Plugin for Visual Testing in Katalon Studio"
+	    description = "This Gradle Plugin exports Katalon Studio components (test cases/test suites/test listener/keywords) that implements the Visual Testing feature to the Github Project Releases page"
+	    implementationClass = "${project.group}.${artifactId}.Porter"
 	}
-	visualTestingInKatalonStudioImportPlugin {
-	    id = "${project.group}.${artifactId}-import"
-	    displayName = "A Gradle plugin enables a Katalon Studio project to perform Visual Testing"
-	    description = "This Gradle Plugin imports Katalon Studio components (test cases/test suites/test listener/keywords) that implements Visual Testing feature"
-	    implementationClass = "${project.group}.${artifactId}.Import"
-	    version = "${project.version}"
-        }
     }
 }
 
