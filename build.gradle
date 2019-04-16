@@ -36,11 +36,11 @@ pluginBundle {
 gradlePlugin {
     plugins {
         visualTestingInKatalonStudioPlugin {
-	    id = "${project.group}.${artifactId}"
+	    id = "com.github.kazurayam.VisualTestingInKatalonStudio-gradle-plugin"
 	    version = "${project.version}"
 	    displayName = "A Gradle Plugin for Visual Testing in Katalon Studio"
 	    description = "This Gradle Plugin exports Katalon Studio components (test cases/test suites/test listener/keywords) that implements the Visual Testing feature to the Github Project Releases page"
-	    implementationClass = "${project.group}.${artifactId}.Porter"
+	    implementationClass = "${project.group}.${artifactId}.PorterPlugin"
 	}
     }
 }
