@@ -1,4 +1,4 @@
-package com.kazurayam.visualtestinginks
+package com.kazurayam.visualtestinginks.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

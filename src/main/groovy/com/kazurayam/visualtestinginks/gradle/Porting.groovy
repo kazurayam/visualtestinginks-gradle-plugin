@@ -1,10 +1,10 @@
-package com.kazurayam.visualtestinginks
+package com.kazurayam.visualtestinginks.gradle
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
-public class Porter extends DefaultTask {
+public class Porting extends DefaultTask {
 
     private String message;
     private String recipient;

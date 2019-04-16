@@ -1,16 +1,20 @@
 /*
- * VisualTesingInKatalonStudio-gradle-plugin/build.gradle
+ * visualtesinginks-gradle-plugin/build.gradle
  *
  */
+
+// applying community plugins
 plugins {
-    id 'java-gradle-plugin'
     id 'com.gradle.plugin-publish' version '0.10.1'
 }
 
 group = 'com.kazurayam'
+jar.baseName = 'visualtestinginks-gradle-plugin'
 version = '0.0.0'
 
+// applying built-in plugins
 apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
 apply plugin: 'maven-publish'
 
 ext {
@@ -27,20 +31,20 @@ dependencies {
 }
 
 pluginBundle {
-    website = 'https://github.com/kazurayam/VisualTestingInKatalonStudio'
-    vcsUrl  = 'https://github.com/kazurayam/VisualTestingInKatalonStudio.git'
+    website = 'https://github.com/kazurayam/visualtestinginks-gradle-plugin'
+    vcsUrl  = 'https://github.com/kazurayam/visualtestinginks-gradle-plugin.git'
     tags    = [ 'katalon', 'katalon-studio', 'webdriver', 'automated-testing' ]
 }
 
 // configuration for java-gradle-plugin
 gradlePlugin {
     plugins {
-        visualTestingInKatalonStudioPlugin {
-	    id = "com.github.kazurayam.VisualTestingInKatalonStudio-gradle-plugin"
-	    version = "${project.version}"
+        visualtestinginks {
+	    id = "com.github.kazurayam.visualtestinginks-gradle-plugin"
+	    version = "${version}"
 	    displayName = "A Gradle Plugin for Visual Testing in Katalon Studio"
 	    description = "This Gradle Plugin exports Katalon Studio components (test cases/test suites/test listener/keywords) that implements the Visual Testing feature to the Github Project Releases page"
-	    implementationClass = "${project.group}.${artifactId}.PorterPlugin"
+	    implementationClass = "com.kazurayam.visualtestinginks.gradle.PortingPlugin"
 	}
     }
 }
@@ -49,9 +53,9 @@ publishing {
     publications {
         pluginPublication (MavenPublication) {
             from       components.java
-	    groupId    "${project.group}"
+	    groupId    "${group}"
 	    artifactId "${artifactId}"
-	    version    "${project.version}"
+	    version    "${version}"
         }
     }
 }

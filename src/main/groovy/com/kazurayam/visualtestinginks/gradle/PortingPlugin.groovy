@@ -1,9 +1,10 @@
-package com.kazurayam.visualtestinginks
+package com.kazurayam.visualtestinginks.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-public class PorterPlugin implements Plugin<Project> {
+
+public class PortingPlugin implements Plugin<Project> {
 
     public void apply(Project project) {
 

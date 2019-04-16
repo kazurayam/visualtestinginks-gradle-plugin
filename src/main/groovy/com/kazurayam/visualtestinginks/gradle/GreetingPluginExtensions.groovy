@@ -1,4 +1,4 @@
-package com.kazurayam.visualtestinginks
+package com.kazurayam.visualtestinginks.gradle
 
 public class GreetingPluginExtension {
 
