@@ -8,23 +8,20 @@ public class PortingPlugin implements Plugin<Project> {
 
     public void apply(Project project) {
 
-    	// Add the 'import' extension object
-        ImportPluginExtensions importExt = project.extensions.create("import", ImportPluginExtensions);
+        // Add extension object
+        PortingPluginExtension extension = project.extensions.create("porting", PortingPluginExtension)
 
-        // Add a task that uses configuration from the extension object
+        // Add a task 'import' that uses configuration from the extension object
         project.task('import') {
             doLast {
-                println importExt.message
+                println extension.message
             }
         }
-
-        // Add the 'export' extension object
-        ExportPluginExtensions exportExt = project.extensions.create("export", ExportPluginExtensions);
 
         // Add a task that uses configuration from the extension object
         project.task('export') {
             doLast {
-                println exportExt.message
+                println extension.message
             }
         }
 

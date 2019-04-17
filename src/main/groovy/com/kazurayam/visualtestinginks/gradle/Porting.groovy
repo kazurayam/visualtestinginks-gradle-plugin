@@ -10,24 +10,6 @@ import org.gradle.api.tasks.TaskAction
 
 public class Porting extends DefaultTask {
 
-    private String message;
-    private String recipient;
-
-    @Input
-    public String getMessage() {
-        return message;
-    }
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    @Input
-    public String getRecipient() {
-        return recipient;
-    }
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
-    }
 
     @TaskAction
     void sayGreeting() {
@@ -38,7 +20,7 @@ public class Porting extends DefaultTask {
 
     /**
      * Usage example:
-     * <PRE>downloadFile('http://central.maven.org/maven2/ru/yandex/qatools/ashot/ashot/1.5.4/ashot-1.5.4.jar', 'Drivers')</PRE>
+     * <PRE>Path file = downloadFile('http://central.maven.org/maven2/ru/yandex/qatools/ashot/ashot/1.5.4/ashot-1.5.4.jar', 'Drivers')</PRE>
      *
      * @param remoteUrl of the file to download
      * @param localDir where the file is saved
@@ -56,6 +38,14 @@ public class Porting extends DefaultTask {
         return downloadFile(remoteUrl, Paths.get(localDir))
     }
 
+    /**
+     * Usage example:
+     * <PRE>Path file = downloadFile(new URL('http://central.maven.org/maven2/ru/yandex/qatools/ashot/ashot/1.5.4/ashot-1.5.4.jar'), Paths.get('Drivers'))</PRE>
+     *
+     * @param remoteUrl of the file to download
+     * @param localDir where the file is saved
+     * @returns Path of the saved file
+     */
     static Path downloadFile(URL remoteUrl, Path localDir) {
         Path outFile = localDir.resolve("${remoteUrl.toString().tokenize('/')[-1]}")
         outFile.toFile().withOutputStream { out ->
