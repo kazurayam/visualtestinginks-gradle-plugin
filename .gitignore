@@ -14,6 +14,10 @@ build
 .settings
 .project
 
+# IDEA
+.idea
+*.iml
+
 # Katalon Studio
 /bin/
 Libs/

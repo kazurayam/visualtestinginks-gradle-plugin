@@ -17,7 +17,7 @@ public class BuildLogicFunctionalSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
-    def "import task prints Hi from import"() {
+    def "greeting task of PortingPlugin prints Hi from PortingPlugin"() {
         given:
             buildFile << '''
                 plugins {
@@ -27,30 +27,12 @@ public class BuildLogicFunctionalSpec extends Specification {
         when:
             def result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
-                .withArguments('import')
+                .withArguments('greeting')
                 .withPluginClasspath()
                 .build()
         then:
             result.output.contains('Hi from PortingPlugin')
-            result.task(":import").outcome == SUCCESS
-    }
-
-    def "export task prints Hi from export"() {
-        given:
-            buildFile << '''
-                plugins {
-                    id 'com.github.kazurayam.visualtestinginks-gradle-plugin'
-                }
-            '''
-        when:
-            def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withArguments('export')
-                .withPluginClasspath()
-                .build()
-            then:
-                result.output.contains('Hi from PortingPlugin')
-                result.task(":export").outcome == SUCCESS
+            result.task(":greeting").outcome == SUCCESS
     }
 
     def "helloWorld task prints Hello world!"() {
