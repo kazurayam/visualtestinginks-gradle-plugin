@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.plugins.GroovyPlugin
 
-public class PortingPlugin implements Plugin<Project> {
+class PortingPlugin implements Plugin<Project> {
 
     private void applyPlugins(Project project) {
         project.getPlugins().apply(GroovyPlugin.class)
@@ -27,12 +27,13 @@ public class PortingPlugin implements Plugin<Project> {
         Task createGradlePackaged  = project.getTasks().create('createGradlePackaged', CreateGradlePackaged)
         Task createVTComponentsZip = project.getTasks().create('createVTComponentsZip', CreateVTComponentsZip)
         Task createVTExampleZip    = project.getTasks().create('createVTExampleZip', CreateVTExampleZip)
-        //Task dependencies          = project.getTasks().create('dependencies')
-        //dependencies.dependsOn(createGradlePacaged)
-        //dependencies.dependsOn(createVTComponentsZip)
-        //dependencies.dependsOn(createVTExcampleZip)
-        //createGradlePackaged.mustRunAfter('cleanDist')
-        //createVTComponentsZip.mustRunAfter('cleanDist')
-        //createVTExampleZip.mustRunAfter('cleanDist')
+        Task distributables = project.getTasks().create('distributables')
+        distributables.dependsOn(createGradlePackaged)
+        distributables.dependsOn(createVTComponentsZip)
+        distributables.dependsOn(createVTExampleZip)
+        createGradlePackaged.mustRunAfter('cleanDist')
+        createVTComponentsZip.mustRunAfter('cleanDist')
+        createVTExampleZip.mustRunAfter('cleanDist')
     }
+
 }
