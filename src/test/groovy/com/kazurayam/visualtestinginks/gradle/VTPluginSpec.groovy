@@ -20,12 +20,12 @@ class VTPluginSpec extends Specification {
         given:
             buildFile << '''
                 plugins {
+
                     /* I found that an external plugin need to be declared here.
                      * I do not see why it is necessary. The following issue looks relevant:
                      * https://github.com/gradle/gradle/issues/1262
                      */
                     id 'de.undercouch.download' version '3.4.3'
-
 
                     id 'com.github.kazurayam.visualtestinginks'
                 }
