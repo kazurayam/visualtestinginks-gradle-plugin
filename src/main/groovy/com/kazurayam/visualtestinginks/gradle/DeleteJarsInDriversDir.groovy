@@ -5,12 +5,13 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
-class DownloadFile extends DefaultTask {
+class DeleteJarsInDriversDir extends DefaultTask {
 
     @TaskAction
     void doTaskAction() {
-        System.out.println("do downloadFile")
+        System.out.println("do deleteJarsInDriversDir")
     }
 }

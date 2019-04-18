@@ -54,5 +54,19 @@ class HelpersSpec extends Specification {
             ! Files.exists(a)
     }
 
+    def test_downloadFile() {
+        setup:
+            Path caseOutputDir = specOutputDir.resolve('test_downloadFile')
+            Files.createDirectories(caseOutputDir)
+            Helpers.deleteDirectoryContents(caseOutputDir)
+        when:
+            Helpers.downloadFile(
+                new URL('https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar'),
+                caseOutputDir)
+            Path downloadedFile = caseOutputDir.resolve('junit4ks-all.jar')
+        then:
+            Files.exists(downloadedFile)
+    }
+
     // helper methods
 }

@@ -1,0 +1,9 @@
+repositories {
+    ivy {
+        //   https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar
+        url 'https://github.com/kazurayam'
+	layout ('pattern') {
+            artifact '[organisation]/releases/download/[version]/[artifact]-[revision](-[classifier])(.[ext])'
+        }
+    }
+}
