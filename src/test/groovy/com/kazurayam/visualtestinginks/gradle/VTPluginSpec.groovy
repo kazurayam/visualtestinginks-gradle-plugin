@@ -20,7 +20,8 @@ class VTPluginSpec extends Specification {
         given:
             buildFile << '''
                 plugins {
-                    id 'com.github.kazurayam.visualtestinginks-gradle-plugin'
+                    id 'de.undercouch.download' version '3.4.3'
+                    id 'com.github.kazurayam.visualtestinginks'
                 }
             '''
         when:
@@ -33,5 +34,5 @@ class VTPluginSpec extends Specification {
             result.output.contains('Hi from VTPlugin')
             result.task(":greeting").outcome == SUCCESS
     }
-    
+
 }
