@@ -6,7 +6,7 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
-class PortingPluginSpec extends Specification {
+class VTPluginSpec extends Specification {
 
     @Rule public final TemporaryFolder testProjectDir = new TemporaryFolder()
 
@@ -16,7 +16,7 @@ class PortingPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
-    def "greeting task of PortingPlugin prints Hi from PortingPlugin"() {
+    def "greeting task of VTPlugin prints Hi from VTPlugin"() {
         given:
             buildFile << '''
                 plugins {
@@ -30,7 +30,7 @@ class PortingPluginSpec extends Specification {
                 .withPluginClasspath()
                 .build()
         then:
-            result.output.contains('Hi from PortingPlugin')
+            result.output.contains('Hi from VTPlugin')
             result.task(":greeting").outcome == SUCCESS
     }
     

@@ -49,8 +49,8 @@ gradlePlugin {
 	    id = "com.github.kazurayam.visualtestinginks-gradle-plugin"
 	    version = "${version}"
 	    displayName = "A Gradle Plugin for Visual Testing in Katalon Studio"
-	    description = "This Gradle Plugin exports Katalon Studio components (test cases/test suites/test listener/keywords) that implements the Visual Testing feature to the Github Project Releases page"
-	    implementationClass = "com.kazurayam.visualtestinginks.gradle.PortingPlugin"
+	    description = "This Gradle Plugin provides \"vtimport\" task and \"vtupdate\" task that brigns the components for the Visual Testing features into your Katalon Studio project. And it also proviles \"vtexport\" task which generates the distributables that include the Visual Testing components."
+	    implementationClass = "com.kazurayam.visualtestinginks.gradle.VTPlugin"
 	}
     }
 }
