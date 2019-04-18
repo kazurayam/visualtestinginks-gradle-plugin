@@ -12,10 +12,14 @@ class PortingSpec extends Specification {
 
     // fields
     Path specOutputDir = Paths.get('build/tmp/testOutput').resolve(Helpers.getClassShortName(PortingSpec.class))
+
+    Porting porting
     
     // fixture methods
     def setupSpec() {}
-    def setup() {}
+    def setup() {
+        porting = new Porting()
+    }
     def cleanup() {}
     def cleanupSpec() {}
 
@@ -26,7 +30,7 @@ class PortingSpec extends Specification {
             Files.createDirectories(caseOutputDir)
             Helpers.deleteDirectoryContents(caseOutputDir)
         when:
-            Porting.downloadFile(
+            porting.downloadFile(
                 new URL('https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar'),
                 caseOutputDir)
             Path downloadedFile = caseOutputDir.resolve('junit4ks-all.jar')

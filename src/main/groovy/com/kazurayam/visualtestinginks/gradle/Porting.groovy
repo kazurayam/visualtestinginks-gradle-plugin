@@ -16,12 +16,13 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 final class Porting extends DefaultTask {
-    
+
+
+
     @TaskAction
     void sayGreeting() {
         System.out.printf("%s, %s!\n", getMessage(), getRecipient());
     }
-
 
 
     /**
@@ -32,15 +33,15 @@ final class Porting extends DefaultTask {
      * @param localDir where the file is saved
      * @returns Path of the saved file
      */
-    static Path downloadFile(String remoteUrl, String localDir) {
+    Path downloadFile(String remoteUrl, String localDir) {
         return downloadFile(new URL(remoteUrl), Paths.get(localDir))
     }
 
-    static Path downloadFile(String remoteUrl, Path localDir) {
+    Path downloadFile(String remoteUrl, Path localDir) {
         return downloadFile(new URL(remoteUrl, localDir))
     }
 
-    static Path downloadFile(URL remoteUrl, String localDir) {
+    Path downloadFile(URL remoteUrl, String localDir) {
         return downloadFile(remoteUrl, Paths.get(localDir))
     }
 
@@ -52,7 +53,7 @@ final class Porting extends DefaultTask {
      * @param localDir where the file is saved
      * @returns Path of the saved file
      */
-    static Path downloadFile(URL remoteUrl, Path localDir) {
+    Path downloadFile(URL remoteUrl, Path localDir) {
         Path outFile = localDir.resolve("${remoteUrl.toString().tokenize('/')[-1]}")
         outFile.toFile().withOutputStream { out ->
             remoteUrl.withInputStream { from ->
