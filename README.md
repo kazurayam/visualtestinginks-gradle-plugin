@@ -1,7 +1,18 @@
-# Project to develop a Gradle Plugin for the Visual Testing in Katalon Studio project
+# visualtestinginks --- a Gradle Plugin
 
-## Purpose of this project
+@author [kazurayam](kazuaki.urayama@gmail.com)
 
+## Overview
+
+
+### For whom this plugin works
+
+#### 1. for anonymous Katalon Studio users
+
+
+#### 2. for the developer of "Visual Testing in Katalon Studio" project
+
+It's me, myself.
 
 
 ## How to operate this project
