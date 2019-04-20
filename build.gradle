@@ -69,3 +69,5 @@ publishing {
         }
     }
 }
+
+publishToMavenLocal.dependsOn jar
