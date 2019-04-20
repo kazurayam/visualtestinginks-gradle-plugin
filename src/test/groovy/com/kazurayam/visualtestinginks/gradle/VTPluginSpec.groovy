@@ -16,7 +16,7 @@ class VTPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
-    def "downloadJarsIntoDriversDir task downloads ashot-1.5.4.jar"() {
+    def "downloadDependentJars task downloads ashot-1.5.4.jar"() {
         given:
             buildFile << '''
                 plugins {
@@ -26,13 +26,13 @@ class VTPluginSpec extends Specification {
         when:
             def result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
-                .withArguments('downloadJarsIntoDriversDir')
+                .withArguments('downloadDependentJars')
                 .withPluginClasspath()
                 .build()
             println result.output
         then:
             result.output.contains('ashot-1.5.4.jar')
-            result.task(":downloadJarsIntoDriversDir").outcome == SUCCESS
+            result.task(":downloadDependentJars").outcome == SUCCESS
     }
 
     def "greeting task prints Hi from VTPlugin"() {

@@ -42,13 +42,12 @@ class VTPlugin implements Plugin<Project> {
         createVTExampleZip.mustRunAfter('cleanDist')
 
         // vt-drivers.gradle
-        Task deleteJarsInDriversDir = project.getTasks().create('deleteJarsInDriversDir') {}
-        Task downloadJarsIntoDriversDir = project.getTasks().create('downloadJarsIntoDriversDir', DownloadJarsIntoDriversDirTask.class)
-
+        Task deleteDependentJars = project.getTasks().create('deleteDependentJars') {}
+        Task downloadDependentJars = project.getTasks().create('downloadDependentJars', DownloadDependentJarsTask.class)
         Task drivers = project.getTasks().create('drivers')
-        drivers.dependsOn(deleteJarsInDriversDir)
-        drivers.dependsOn(downloadJarsIntoDriversDir)
-        downloadJarsIntoDriversDir.mustRunAfter('deleteJarsInDriversDir')
+        drivers.dependsOn(deleteDependentJars)
+        drivers.dependsOn(downloadDependentJars)
+        downloadDependentJars.mustRunAfter('deleteDependentJars')
 
         // vt-init.gradle
         Task unzipVTComponents = project.getTasks().create('unzipVTComponents') {}
