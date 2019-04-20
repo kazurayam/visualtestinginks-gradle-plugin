@@ -2,11 +2,13 @@ import org.gradle.testkit.runner.GradleRunner
 import static org.gradle.testkit.runner.TaskOutcome.*
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+import spock.lang.Ignore
 import spock.lang.Specification
 
 /**
  * https://docs.gradle.org/4.10-rc-2/userguide/test_kit.html
  */
+@Ignore
 public class BuildLogicFunctionalSpec extends Specification {
 
     @Rule public final TemporaryFolder testProjectDir = new TemporaryFolder()

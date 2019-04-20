@@ -16,17 +16,29 @@ class VTPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
-    def "greeting task of VTPlugin prints Hi from VTPlugin"() {
+    def "downloadJarsIntoDriversDir task downloads ashot-1.5.4.jar"() {
         given:
             buildFile << '''
                 plugins {
+                    id 'com.github.kazurayam.visualtestinginks'
+                }
+            '''
+        when:
+            def result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('downloadJarsIntoDriversDir')
+                .withPluginClasspath()
+                .build()
+            println result.output
+        then:
+            result.output.contains('ashot-1.5.4.jar')
+            result.task(":downloadJarsIntoDriversDir").outcome == SUCCESS
+    }
 
-                    /* I found that an external plugin need to be declared here.
-                     * I do not see why it is necessary. The following issue looks relevant:
-                     * https://github.com/gradle/gradle/issues/1262
-                     */
-                    id 'de.undercouch.download' version '3.4.3'
-
+    def "greeting task prints Hi from VTPlugin"() {
+        given:
+            buildFile << '''
+                plugins {
                     id 'com.github.kazurayam.visualtestinginks'
                 }
             '''
