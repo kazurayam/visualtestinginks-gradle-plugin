@@ -31,9 +31,12 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
-    testCompile gradleTestKit()
-    testCompile group: 'org.spockframework', name: 'spock-core', version: "${spockVersion}"
+    // https://mvnrepository.com/artifact/de.undercouch/gradle-download-task
+    implementation group: 'de.undercouch', name: 'gradle-download-task', version: '3.4.3'
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
+    testImplementation gradleTestKit()
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: "${spockVersion}"
 }
 
 
