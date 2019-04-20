@@ -29,10 +29,10 @@ class VTPlugin implements Plugin<Project> {
             }
         }
         // vt-build.gradle
-        Task cleanDist             = project.getTasks().create('cleanDist', CleanDist.class)
-        Task createGradlePackaged  = project.getTasks().create('createGradlePackaged', CreateGradlePackaged)
-        Task createVTComponentsZip = project.getTasks().create('createVTComponentsZip', CreateVTComponentsZip)
-        Task createVTExampleZip    = project.getTasks().create('createVTExampleZip', CreateVTExampleZip)
+        Task cleanDist             = project.getTasks().create('cleanDist') {}
+        Task createGradlePackaged  = project.getTasks().create('createGradlePackaged') {}
+        Task createVTComponentsZip = project.getTasks().create('createVTComponentsZip') {}
+        Task createVTExampleZip    = project.getTasks().create('createVTExampleZip') {}
         Task distributables = project.getTasks().create('distributables')
         distributables.dependsOn(createGradlePackaged)
         distributables.dependsOn(createVTComponentsZip)
@@ -54,7 +54,7 @@ class VTPlugin implements Plugin<Project> {
 
         Path outDir = project.projectDir.toPath().resolve('Drivers')
 
-        Task deleteJarsInDriversDir     = project.getTasks().create('deleteJarsInDriversDir', DeleteJarsInDriversDir.class)
+        Task deleteJarsInDriversDir = project.getTasks().create('deleteJarsInDriversDir') {}
 
         Task downloadJarsIntoDriversDir = project.getTasks().create('downloadJarsIntoDriversDir') {
             doLast {
@@ -75,8 +75,8 @@ class VTPlugin implements Plugin<Project> {
         downloadJarsIntoDriversDir.mustRunAfter('deleteJarsInDriversDir')
 
         // vt-init.gradle
-        Task unzipVTComponents = project.getTasks().create('unzipVTComponents', UnzipVTComponents.class)
-        Task unzipVTExample    = project.getTasks().create('unzipVTExample', UnzipVTExample.class)
+        Task unzipVTComponents = project.getTasks().create('unzipVTComponents') {}
+        Task unzipVTExample    = project.getTasks().create('unzipVTExample') {}
         Task importVT = project.getTasks().create('importVT')
         importVT.dependsOn(unzipVTComponents)
         importVT.dependsOn(unzipVTExample)
