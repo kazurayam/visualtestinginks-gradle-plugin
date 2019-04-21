@@ -15,4 +15,11 @@ public class VTPluginExtension {
         'https://github.com/kazurayam/ksbackyard/releases/download/0.36.0/ksbackyard.jar',
         'https://github.com/kazurayam/Materials/releases/download/0.68.0/Materials-0.68.0.jar'
     ]
+
+    String gradlewFileName = 'gradlew-packaged.zip'
+
+    String vtComponentsFileName = 'vt-components.zip'
+
+    String vtExampleFileName = 'vt-example.zip'
+
 }

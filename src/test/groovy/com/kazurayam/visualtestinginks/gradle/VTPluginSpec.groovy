@@ -22,6 +22,13 @@ class VTPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
+    def "cleanDist task delete files under the build/dist directory"() {
+        setup:
+            buildFile << '''
+            '''
+    }
+
+
     /**
      *
      */
