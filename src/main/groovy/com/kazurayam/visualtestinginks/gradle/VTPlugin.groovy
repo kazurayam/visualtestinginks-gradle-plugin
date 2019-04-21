@@ -30,9 +30,9 @@ class VTPlugin implements Plugin<Project> {
         VTPluginExtension extension = project.extensions.create("vt", VTPluginExtension)
 
         // tasks to generate VisualTesting distributables
-        Task createGradlePackaged  = project.getTasks().create(
-                'createGradlePackaged', Zip.class, {
-                    archiveFileName = extension.gradlewFileName
+        Task createPackagedGradlew  = project.getTasks().create(
+                'createPackagedGradlew', Zip.class, {
+                    archiveFileName = Constants.gradlewFileName
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
                         // include the gradle wrapper
@@ -44,7 +44,7 @@ class VTPlugin implements Plugin<Project> {
                 })
         Task createVTComponentsZip = project.getTasks().create(
                 'createVTComponentsZip', Zip.class, {
-                    archiveFileName = extension.vtComponentsFileName
+                    archiveFileName = Constants.vtComponentsFileName
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
                         include "Test Cases/VT/**"
@@ -60,7 +60,7 @@ class VTPlugin implements Plugin<Project> {
                 })
         Task createVTExampleZip    = project.getTasks().create(
                 'createVTExampleZip', Zip.class, {
-                    archiveFileName = extension.vtExampleFileName
+                    archiveFileName = Constants.vtExampleFileName
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
                         include "Profiles/CURA*"
@@ -80,10 +80,10 @@ class VTPlugin implements Plugin<Project> {
                 })
         Task distributables = project.getTasks().create(
                 'distributables')
-        distributables.dependsOn(createGradlePackaged)
+        distributables.dependsOn(createPackagedGradlew)
         distributables.dependsOn(createVTComponentsZip)
         distributables.dependsOn(createVTExampleZip)
-        createGradlePackaged.mustRunAfter('cleanDist')
+        createPackagedGradlew.mustRunAfter('cleanDist')
         createVTComponentsZip.mustRunAfter('cleanDist')
         createVTExampleZip.mustRunAfter('cleanDist')
 

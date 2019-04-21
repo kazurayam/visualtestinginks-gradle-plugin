@@ -10,6 +10,7 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 
 import spock.lang.Ignore
+import spock.lang.IgnoreRest
 import spock.lang.Specification
 
 class VTPluginSpec extends Specification {
@@ -22,10 +23,29 @@ class VTPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
-    def "cleanDist task delete files under the build/dist directory"() {
+    @IgnoreRest
+    def "importVTComponents task delete download and extract the zip"() {
         setup:
             buildFile << '''
+                plugins {
+                    id 'com.github.kazurayam.visualtestinginks'
+                }
             '''
+        when:
+            def result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('importVTComponents')
+                .withPluginClasspath()
+                .build()
+            println result.output
+        then:
+            result.output.contains('vt-components.zip')
+            result.task(":importVTComponents").outcome == SUCCESS
+        when:
+            Path testListenersDir = testProjectDir.root.toPath().resolve('Test Listeners')
+            Path vtListener = testListenersDir.resolve('VTListener.groovy')
+        then:
+            Files.exists(vtListener)
     }
 
 
