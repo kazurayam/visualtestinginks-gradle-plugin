@@ -4,8 +4,6 @@ import java.nio.file.Path
 
 public class VTPluginExtension {
 
-    String message = 'Hi from VTPlugin';
-
     List<String> dependencies = [
         'http://central.maven.org/maven2/ru/yandex/qatools/ashot/ashot/1.5.4/ashot-1.5.4.jar',
         'http://central.maven.org/maven2/net/coobird/thumbnailator/0.4.8/thumbnailator-0.4.8.jar',
@@ -16,10 +14,18 @@ public class VTPluginExtension {
         'https://github.com/kazurayam/Materials/releases/download/0.68.0/Materials-0.68.0.jar'
     ]
 
+    String vcsUrlPrefix  = "https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download"
+
+    String version = '1.9.2'
+
     String gradlewFileName = 'gradlew-packaged.zip'
 
     String vtComponentsFileName = 'vt-components.zip'
 
     String vtExampleFileName = 'vt-example.zip'
+
+
+
+    String message = 'Hi from VTPlugin';
 
 }

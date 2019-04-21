@@ -6,8 +6,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.plugins.GroovyPlugin
+import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Delete
-import org.gradle.api.tasks.Zip
+import org.gradle.api.tasks.bundling.Zip
 
 class VTPlugin implements Plugin<Project> {
 
@@ -31,8 +32,8 @@ class VTPlugin implements Plugin<Project> {
         // tasks to generate VisualTesting distributables
         Task createGradlePackaged  = project.getTasks().create(
                 'createGradlePackaged', Zip.class, {
-                    archiveFileName = extension.vt.gradlewFileName
-                    desticationDirectory = file("${project.buildDir}/dist")
+                    archiveFileName = extension.gradlewFileName
+                    destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
                         // include the gradle wrapper
                         include "gradlew"
@@ -42,9 +43,34 @@ class VTPlugin implements Plugin<Project> {
                     }
                 })
         Task createVTComponentsZip = project.getTasks().create(
-                'createVTComponentsZip') {}
+                'createVTComponentsZip', Zip.class, {
+                    archiveFileName = extension.vtComponentsFileName
+                    destinationDirectory = project.file("${project.buildDir}/dist")
+                    from(".") {
+                        include "Test Cases/VT/**"
+                        include "Scripts/VT/**"
+                        include "Test Listeners/**/VT*"
+                        include "Test Suites/VT/**"
+                        include "Keywords/com/kazurayam/visualtesting/**"
+                        include "run-console-mode.*"
+                    }
+                    from(".") {
+                        include ".gitignore"
+                    }
+                })
         Task createVTExampleZip    = project.getTasks().create(
-                'createVTExampleZip') {}
+                'createVTExampleZip', Zip.class, {
+                    archiveFileName = extension.vtExampleFileName
+                    destinationDirectory = project.file("${project.buildDir}/dist")
+                    from(".") {
+                        include "Profiles/CURA*"
+                        include "Test Cases/CURA/**"
+                        include "Object Repository/CURA/**"
+                        include "Test Suites/CURA/**"
+                        include "Keywords/com/kazurayam/**"
+                        include "Scripts/CURA/**"
+                    }
+                })
         Task cleanDist = project.getTasks().create(
                 'cleanDist', Delete.class, {
                     def dirName = "build/dist"
@@ -62,13 +88,14 @@ class VTPlugin implements Plugin<Project> {
         createVTExampleZip.mustRunAfter('cleanDist')
 
         // tasks to import distributables into the people's VisualTesting projects
-        Task unzipVTComponents = project.getTasks().create(
-                'unzipVTComponents') {}
-        Task unzipVTExample    = project.getTasks().create(
-                'unzipVTExample') {}
-        Task importVT = project.getTasks().create('importVT')
-        importVT.dependsOn(unzipVTComponents)
-        importVT.dependsOn(unzipVTExample)
+        Task importVTComponents = project.getTasks().create(
+                'importVTComponents', ImportVTComponentsTask.class)
+        Task importVTExample    = project.getTasks().create(
+                'importVTExample', ImportVTExampleTask.class)
+        Task importVT = project.getTasks().create(
+                'importVT')
+        importVT.dependsOn(importVTComponents)
+        importVT.dependsOn(importVTExample)
 
         // tasks to manage jar files in the Drivers directory in the people's VisualTesting projects
         Task deleteDependencies = project.getTasks().create(
