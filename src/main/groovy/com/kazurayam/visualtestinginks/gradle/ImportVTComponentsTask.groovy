@@ -22,6 +22,6 @@ class ImportVTComponentsTask extends DefaultTask {
             from project.zipTree(zipFile)
             into project.projectDir
         }
-        Helpers.deleteDirectories(tempDir)
+        Helpers.deleteDirectory(tempDir)
     }
 }

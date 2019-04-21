@@ -23,7 +23,6 @@ class VTPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
-    @IgnoreRest
     def "importVTComponents task delete download and extract the zip"() {
         setup:
             buildFile << '''
