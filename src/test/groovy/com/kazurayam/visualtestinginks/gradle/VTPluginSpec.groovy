@@ -8,6 +8,8 @@ import org.gradle.testkit.runner.GradleRunner
 import static org.gradle.testkit.runner.TaskOutcome.*
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+
+import spock.lang.Ignore
 import spock.lang.Specification
 
 class VTPluginSpec extends Specification {
@@ -20,8 +22,11 @@ class VTPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
+    /**
+     *
+     */
     def "downloadDependencies task downloads junit4ks-all.jar"() {
-        given:
+        setup:
             buildFile << '''
                 plugins {
                     id 'com.github.kazurayam.visualtestinginks'
@@ -48,6 +53,47 @@ class VTPluginSpec extends Specification {
             fileNames.contains('vt-junit4ks-all.jar')
     }
 
+    /**
+     *
+     */
+    def "deleteDependencies task delets Drivers/vt-* files"() {
+        setup:
+            buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+            }
+            vt.dependencies = [
+                'https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar'
+                ]
+            '''
+            Path driversDir = testProjectDir.root.toPath().resolve('Drivers')
+            List<Path> files
+        when:
+            def downloadResult = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('downloadDependencies')
+                .withPluginClasspath()
+                .build()
+            List<Path> filesAfterDownload = Files.list(driversDir).collect(Collectors.toList())
+        then:
+            filesAfterDownload.size() == 1
+        when:
+            def deleteResult = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('deleteDependencies')
+                .withPluginClasspath()
+                .build()
+            List<Path> filesAfterDelete = Files.list(driversDir).collect(Collectors.toList())
+        then:
+            filesAfterDelete.size() == 0      // assert vt-junit4ks-all.jar is deleted
+    }
+
+
+
+    /**
+     *
+     */
+    @Ignore
     def "greeting task prints Hi from VTPlugin"() {
         given:
             buildFile << '''

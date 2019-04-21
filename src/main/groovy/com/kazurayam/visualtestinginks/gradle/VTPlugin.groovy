@@ -41,8 +41,8 @@ class VTPlugin implements Plugin<Project> {
         createVTComponentsZip.mustRunAfter('cleanDist')
         createVTExampleZip.mustRunAfter('cleanDist')
 
-        // vt-drivers.gradle
-        Task deleteDependencies = project.getTasks().create('deleteDependencies') {}
+        // managing jar files in the Drivers directory
+        Task deleteDependencies = project.getTasks().create('deleteDependencies', DeleteDependenciesTask.class)
         Task downloadDependencies = project.getTasks().create('downloadDependencies', DownloadDependenciesTask.class)
         Task vtDependencies = project.getTasks().create('vtDependencies')
         vtDependencies.dependsOn(deleteDependencies)

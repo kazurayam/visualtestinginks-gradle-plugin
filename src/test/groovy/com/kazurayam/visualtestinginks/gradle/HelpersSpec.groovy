@@ -4,8 +4,10 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+import spock.lang.Ignore
 import spock.lang.Specification
 
+@Ignore
 class HelpersSpec extends Specification {
 
     // fields
