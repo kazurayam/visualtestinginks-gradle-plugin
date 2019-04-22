@@ -23,7 +23,8 @@ class VTPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
-    def "importVTComponents task delete download and extract the zip"() {
+    @IgnoreRest
+    def "importVTComponents task downloads and extracts the zip"() {
         setup:
             buildFile << '''
                 plugins {
@@ -36,7 +37,7 @@ class VTPluginSpec extends Specification {
                 .withArguments('importVTComponents')
                 .withPluginClasspath()
                 .build()
-            println result.output
+            //println result.output
         then:
             result.output.contains('vt-components.zip')
             result.task(":importVTComponents").outcome == SUCCESS
@@ -82,7 +83,7 @@ class VTPluginSpec extends Specification {
     /**
      *
      */
-    def "deleteDependencies task delets Drivers/vt-* files"() {
+    def "deleteDependencies task deletes Drivers/vt-* files"() {
         setup:
             buildFile << '''
             plugins {

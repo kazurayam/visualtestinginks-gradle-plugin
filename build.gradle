@@ -71,3 +71,12 @@ publishing {
 }
 
 publishToMavenLocal.dependsOn jar
+
+
+tasks.withType(Test) {
+    systemProperty "http.proxyHost", "172.24.2.10"
+    systemProperty "http.proxyPort", "8080"
+    systemProperty "https.proxyHost", "172.24.2.10"
+    systemProperty "https.proxyPort", "8080"
+
+}
