@@ -23,7 +23,6 @@ class VTPluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle")
     }
 
-    @IgnoreRest
     def "importVTComponents task downloads and extracts the zip"() {
         setup:
             buildFile << '''
@@ -39,13 +38,38 @@ class VTPluginSpec extends Specification {
                 .build()
             //println result.output
         then:
-            result.output.contains('vt-components.zip')
+            result.output.contains(Constants.vtComponentsFileName)
             result.task(":importVTComponents").outcome == SUCCESS
         when:
             Path testListenersDir = testProjectDir.root.toPath().resolve('Test Listeners')
             Path vtListener = testListenersDir.resolve('VTListener.groovy')
         then:
             Files.exists(vtListener)
+    }
+
+    @IgnoreRest
+    def "importVTExample task downloads and extracts the zip"() {
+        setup:
+            buildFile << '''
+                plugins {
+                    id 'com.github.kazurayam.visualtestinginks'
+                }
+            '''
+        when:
+            def result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments('importVTExample')
+                .withPluginClasspath()
+                .build()
+        then:
+            result.output.contains(Constants.vtExampleFileName)
+            result.task(':importVTExample').outcome == SUCCESS
+        when:
+            Path testCasesDir = testProjectDir.root.toPath().resolve('Test Cases')
+            Path vtDir = testCasesDir.resolve('VT')
+            Path makeIndexTC = vtDir.resolve('makeIndex.tc')
+        then:
+            Files.exists(makeIndexTC)
     }
 
 
