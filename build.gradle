@@ -74,9 +74,17 @@ publishToMavenLocal.dependsOn jar
 
 
 tasks.withType(Test) {
-    systemProperty 'http.proxyHost' , System.getProperty('http.proxyHost')
-    systemProperty 'http.proxyPort' , System.getProperty('http.proxyPort')
-    systemProperty 'https.proxyHost', System.getProperty('https.proxyHost')
-    systemProperty 'https.proxyPort', System.getProperty('https.proxyPort')
+    if (System.getProperty('http.proxyHost') != null) {
+        systemProperty 'http.proxyHost' , System.getProperty('http.proxyHost')
+    }
+    if (System.getProperty('http.proxyPort') != null) {
+        systemProperty 'http.proxyPort' , System.getProperty('http.proxyPort')
+    }
+    if (System.getProperty('https.proxyHost') != null) {
+        systemProperty 'https.proxyHost', System.getProperty('https.proxyHost')
+    }
+    if (System.getProperty('https.proxyPort') != null) {
+        systemProperty 'https.proxyPort', System.getProperty('https.proxyPort')
+    }
 
 }
