@@ -1,3 +1,9 @@
+/**
+ * download-test.gradle
+ *
+ *     this script is useful to test if the "de.undercouch.download" plugin works
+ *     in the current network, especcialy behind a corporates Proxy.
+ */
 plugins {
     id "de.undercouch.download" version "3.4.3"
 }
