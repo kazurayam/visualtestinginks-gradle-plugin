@@ -74,9 +74,9 @@ publishToMavenLocal.dependsOn jar
 
 
 tasks.withType(Test) {
-    systemProperty "http.proxyHost", "172.24.2.10"
-    systemProperty "http.proxyPort", "8080"
-    systemProperty "https.proxyHost", "172.24.2.10"
-    systemProperty "https.proxyPort", "8080"
+    systemProperty 'http.proxyHost' , System.getProperty('http.proxyHost')
+    systemProperty 'http.proxyPort' , System.getProperty('http.proxyPort')
+    systemProperty 'https.proxyHost', System.getProperty('https.proxyHost')
+    systemProperty 'https.proxyPort', System.getProperty('https.proxyPort')
 
 }
