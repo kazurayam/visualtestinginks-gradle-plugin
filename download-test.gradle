@@ -1,0 +1,12 @@
+plugins {
+    id "de.undercouch.download" version "3.4.3"
+}
+ext {
+    outfile = buildDir.toPath().resolve('tmp/testOutput/download-test/junit4ks-all.jar').toFile()
+}
+task downloadJunit4ks(type: Download) {
+    src  'https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar'
+    dest outfile
+}
+
+defaultTasks 'downloadJunit4ks'
