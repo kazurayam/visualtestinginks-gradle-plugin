@@ -10,7 +10,7 @@ plugins {
 
 group = 'com.kazurayam'
 jar.baseName = 'visualtestinginks-gradle-plugin'
-version = '0.0.0'
+version = '0.1.0'
 
 // applying built-in plugins
 apply plugin: 'groovy'
@@ -43,7 +43,7 @@ dependencies {
 pluginBundle {
     website = 'https://github.com/kazurayam/visualtestinginks-gradle-plugin'
     vcsUrl  = 'https://github.com/kazurayam/visualtestinginks-gradle-plugin.git'
-    tags    = [ 'katalon', 'katalon-studio', 'webdriver', 'automated-testing' ]
+    tags    = [ 'katalon' ]
 }
 
 // configuration for java-gradle-plugin
@@ -52,12 +52,13 @@ gradlePlugin {
         visualtestinginks {
             id = "com.github.kazurayam.visualtestinginks"
             version = "${version}"
-            displayName = "A Gradle Plugin for Visual Testing in Katalon Studio"
-            description = "This Gradle Plugin provides \"vtimport\" task and \"vtupdate\" task that brigns the components for the Visual Testing features into your Katalon Studio project. And it also proviles \"vtexport\" task which generates the distributables that include the Visual Testing components."
+            displayName = "A Gradle Plugin to import the \"Visual Testing in Katalon Studio\" components into your Katalon Studio projects"
+            description = "With this Gradle Plugin you can import the components (Test Cases, Test Suites, Test Listener, Keywords) into your own Katalon Studio project and make it capable of running WebUI screenshot comparison testings."
             implementationClass = "com.kazurayam.visualtestinginks.gradle.VTPlugin"
         }
     }
 }
+// $ gradle publishPlugins
 
 publishing {
     publications {
@@ -69,9 +70,9 @@ publishing {
         }
     }
 }
-
 publishToMavenLocal.dependsOn jar
 
+// $ gradle publishToMavenLocal
 
 tasks.withType(Test) {
     if (System.getProperty('http.proxyHost') != null) {
