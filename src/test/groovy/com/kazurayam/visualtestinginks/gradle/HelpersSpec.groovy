@@ -70,5 +70,16 @@ class HelpersSpec extends Specification {
             Files.exists(downloadedFile)
     }
 
+
+    def test_copyDirectory() {
+        setup:
+        Path fixtureProjectDir = Paths.get('src/test/resources/fixture/vt-project')
+        Path caseOutputDir = specOutputDir.resolve('test_copyDirectory')
+        when:
+        Helpers.copyDirectory(fixtureProjectDir, caseOutputDir)
+        then:
+        Files.exists(caseOutputDir.resolve('Test Cases').resolve('VT').resolve('makeIndex.tc'))
+    }
+
     // helper methods
 }

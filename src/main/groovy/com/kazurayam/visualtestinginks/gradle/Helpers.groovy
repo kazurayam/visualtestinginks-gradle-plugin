@@ -1,6 +1,11 @@
 package com.kazurayam.visualtestinginks.gradle
 
+import static java.nio.file.FileVisitResult.*
+import static java.nio.file.StandardCopyOption.*
+
+import java.nio.file.FileAlreadyExistsException
 import java.nio.file.Files
+import java.nio.file.FileVisitOption
 import java.nio.file.FileVisitResult
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -53,6 +58,75 @@ final class Helpers {
                 }
             }
         )
+    }
+
+    /**
+     * Copies descendent files and directories recursively
+     * from the source directory into the target directory.
+     *
+     * @param source a directory from which files and directories are copied
+     * @param target a directory into which files and directories are copied
+     * @param skipExisting default to true
+     * @return
+     */
+    static int copyDirectory(Path source, Path target, boolean skipIfIdentical = true) {
+        if (source == null) {
+            throw new IllegalArgumentException('source is null')
+        }
+        if (!Files.exists(source)) {
+            throw new IllegalArgumentException("${source.normalize().toAbsolutePath()} does not exist")
+        }
+        if (!Files.isDirectory(source)) {
+            throw new IllegalArgumentException("${source.normalize().toAbsolutePath()} is not a directory")
+        }
+        if (!Files.isReadable(source)) {
+            throw new IllegalArgumentException("${source.normalize().toAbsolutePath()} is not readable")
+        }
+        if (target == null) {
+            throw new IllegalArgumentException('target is null')
+        }
+
+        // if target directory is not there, create it
+        Files.createDirectories(target)
+
+        // number of files copied
+        int count = 0
+
+        Files.walkFileTree(source, EnumSet.of(FileVisitOption.FOLLOW_LINKS),
+            Integer.MAX_VALUE,
+            new SimpleFileVisitor<Path>() {
+                @Override
+                FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attributes) throws IOException {
+                    Path targetdir = target.resolve(source.relativize(dir))
+                    try {
+                        Files.copy(dir, targetdir)
+                    } catch (FileAlreadyExistsException e) {
+                        if (!Files.isDirectory(targetdir))
+                            throw e
+                    }
+                    return CONTINUE
+                }
+                @Override
+                FileVisitResult visitFile(Path file, BasicFileAttributes attr) throws IOException {
+                    Path targetFile = target.resolve(source.relativize(file))
+                    File sourceF = file.toFile()
+                    File targetF = targetFile.toFile()
+                    if (skipIfIdentical &&
+                        Files.exists(targetFile) &&
+                        sourceF.length() == targetF.length() &&
+                        sourceF.lastModified() == targetF.lastModified()) {
+                        ; // skip copying if sourceF and targetF are identical
+                    } else {
+                        logger_.debug("#copyDirectory copied ${file} to ${targetFile}")
+                        Files.copy(file, targetFile, REPLACE_EXISTING, COPY_ATTRIBUTES)
+                        count += 1
+                    }
+                    return CONTINUE
+                }
+            }
+        )
+
+        return count
     }
 
     /**

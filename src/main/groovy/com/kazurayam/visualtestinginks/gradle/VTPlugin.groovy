@@ -30,6 +30,12 @@ class VTPlugin implements Plugin<Project> {
         VTPluginExtension extension = project.extensions.create("vt", VTPluginExtension)
 
         // tasks to generate VisualTesting distributables
+        Task createDistDir = project.getTasks().create(
+                'createDistDir', {
+                    doLast {
+                        project.mkdir "${project.buildDir}/dist"
+                    }
+                })
         Task createPackagedGradlew  = project.getTasks().create(
                 'createPackagedGradlew', Zip.class, {
                     archiveFileName = Constants.gradlewFileName
@@ -42,6 +48,7 @@ class VTPlugin implements Plugin<Project> {
                         include "gradle/**/*"
                     }
                 })
+        createPackagedGradlew.dependsOn(createDistDir)
         Task createVTComponentsZip = project.getTasks().create(
                 'createVTComponentsZip', Zip.class, {
                     archiveFileName = Constants.vtComponentsFileName
@@ -58,6 +65,7 @@ class VTPlugin implements Plugin<Project> {
                         include ".gitignore"
                     }
                 })
+        createVTComponentsZip.dependsOn(createDistDir)
         Task createVTExampleZip    = project.getTasks().create(
                 'createVTExampleZip', Zip.class, {
                     archiveFileName = Constants.vtExampleFileName
@@ -71,6 +79,7 @@ class VTPlugin implements Plugin<Project> {
                         include "Scripts/CURA/**"
                     }
                 })
+        createVTExampleZip.dependsOn(createDistDir)
         Task cleanDist = project.getTasks().create(
                 'cleanDist', Delete.class, {
                     def dirName = "build/dist"
