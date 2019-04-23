@@ -122,7 +122,7 @@ class VTPluginSpec extends Specification {
         assert Files.exists(distDir)
     }
 
-    @IgnoreRest
+
     def "cleanDist task cleans the build/dist directory"() {
         setup:
         buildFile << '''
