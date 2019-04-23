@@ -30,14 +30,8 @@ class VTPlugin implements Plugin<Project> {
         VTPluginExtension extension = project.extensions.create("vt", VTPluginExtension)
 
         // tasks to generate VisualTesting distributables
-        Task createDistDir = project.getTasks().create(
-                'createDistDir', {
-                    doLast {
-                        project.mkdir "${project.buildDir}/dist"
-                    }
-                })
-        Task createPackagedGradlew  = project.getTasks().create(
-                'createPackagedGradlew', Zip.class, {
+        Task createDistributableGradlew  = project.getTasks().create(
+                'createDistributableGradlew', Zip.class, {
                     archiveFileName = Constants.gradlewFileName
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
@@ -48,9 +42,9 @@ class VTPlugin implements Plugin<Project> {
                         include "gradle/**/*"
                     }
                 })
-        createPackagedGradlew.dependsOn(createDistDir)
-        Task createVTComponentsZip = project.getTasks().create(
-                'createVTComponentsZip', Zip.class, {
+
+        Task createVTComponents = project.getTasks().create(
+                'createVTComponents', Zip.class, {
                     archiveFileName = Constants.vtComponentsFileName
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
@@ -59,15 +53,14 @@ class VTPlugin implements Plugin<Project> {
                         include "Test Listeners/**/VT*"
                         include "Test Suites/VT/**"
                         include "Keywords/com/kazurayam/visualtesting/**"
-                        include "run-console-mode.*"
                     }
                     from(".") {
                         include ".gitignore"
                     }
                 })
-        createVTComponentsZip.dependsOn(createDistDir)
-        Task createVTExampleZip    = project.getTasks().create(
-                'createVTExampleZip', Zip.class, {
+
+        Task createVTExample    = project.getTasks().create(
+                'createVTExample', Zip.class, {
                     archiveFileName = Constants.vtExampleFileName
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
@@ -75,11 +68,18 @@ class VTPlugin implements Plugin<Project> {
                         include "Test Cases/CURA/**"
                         include "Object Repository/CURA/**"
                         include "Test Suites/CURA/**"
-                        include "Keywords/com/kazurayam/**"
                         include "Scripts/CURA/**"
+                        include "vt-run-CURA*"
                     }
                 })
-        createVTExampleZip.dependsOn(createDistDir)
+
+        Task createDist = project.getTasks().create(
+            'createDist', {
+                doLast {
+                    project.mkdir "${project.buildDir}/dist"
+                }
+            })
+
         Task cleanDist = project.getTasks().create(
                 'cleanDist', Delete.class, {
                     def dirName = "build/dist"
@@ -87,14 +87,16 @@ class VTPlugin implements Plugin<Project> {
                         delete "${dirName}/${f}"
                     }
                 })
-        Task distributables = project.getTasks().create(
-                'distributables')
-        distributables.dependsOn(createPackagedGradlew)
-        distributables.dependsOn(createVTComponentsZip)
-        distributables.dependsOn(createVTExampleZip)
-        createPackagedGradlew.mustRunAfter('cleanDist')
-        createVTComponentsZip.mustRunAfter('cleanDist')
-        createVTExampleZip.mustRunAfter('cleanDist')
+        cleanDist.dependsOn(createDist)
+
+        Task distributables = project.getTasks().create('distributables')
+        distributables.dependsOn(cleanDist)
+        distributables.dependsOn(createDistributableGradlew)
+        distributables.dependsOn(createVTComponents)
+        distributables.dependsOn(createVTExample)
+        createDistributableGradlew.mustRunAfter('cleanDist')
+        createVTComponents.mustRunAfter('cleanDist')
+        createVTExample.mustRunAfter('cleanDist')
 
         // tasks to import distributables into the people's VisualTesting projects
         Task importVTComponents = project.getTasks().create(

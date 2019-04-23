@@ -26,7 +26,7 @@ class VTPluginSpec extends Specification {
         fixtureProject = Paths.get('.', 'src', 'test', 'resources', 'fixture', 'vt-project')
     }
 
-    def "createPackagedGradlew task creates a zip file"() {
+    def "createDistributableGradlew task creates a zip file"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -38,18 +38,31 @@ class VTPluginSpec extends Specification {
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
-            .withArguments('createPackagedGradlew')
+            .withArguments('createDistributableGradlew')
             .withPluginClasspath()
             .build()
-        //then:
-        //result.task(':createPackagedGradlew').outcome == SUCCESS
-        //when:
+        then:
+        result.task(':createDistributableGradlew').outcome == SUCCESS
+        when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
         Path gradlewZip = distDir.resolve(Constants.gradlewFileName)
         then:
         assert Files.exists(gradlewZip)
     }
+
+    @IgnoreRest
+    def "createVTComponents task creates a Zip file"() {
+
+    }
+
+    def "createVTExample task creates a Zip file"() {}
+
+    def "createDist task creates the build/dist directory"() {}
+
+    def "cleanDist task cleans the build/dist directory"() {}
+
+    def "distributables task creates 3 zip files in the build/dist directory"() {}
 
     def "importVTComponents task downloads and extracts the zip"() {
         setup:
