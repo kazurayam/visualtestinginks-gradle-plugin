@@ -61,17 +61,30 @@ class VTPluginSpec extends Specification {
                 .withArguments('importVTExample')
                 .withPluginClasspath()
                 .build()
+            listDirectory(testProjectDir.root.toPath())
         then:
             result.output.contains(Constants.vtExampleFileName)
             result.task(':importVTExample').outcome == SUCCESS
         when:
             Path testCasesDir = testProjectDir.root.toPath().resolve('Test Cases')
-            Path vtDir = testCasesDir.resolve('VT')
-            Path makeIndexTC = vtDir.resolve('makeIndex.tc')
+            listDirectory(testCasesDir)
+            Path vtDir = testCasesDir.resolve('CURA')
+            listDirectory(vtDir)
+            Path makeIndexTC = vtDir.resolve('visitSite.tc')
         then:
             Files.exists(makeIndexTC)
     }
 
+    /**
+     *
+     */
+    private void listDirectory(Path dir) {
+        List<Path> files = Files.list(dir).collect(Collectors.toList())
+        println "listing contents of ${dir.toAbsolutePath().toString()}"
+        for (Path file: files) {
+            println "    ${file.toAbsolutePath().toString()}"
+        }
+    }
 
     /**
      *
