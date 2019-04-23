@@ -51,18 +51,134 @@ class VTPluginSpec extends Specification {
         assert Files.exists(gradlewZip)
     }
 
-    @IgnoreRest
     def "createVTComponents task creates a Zip file"() {
-
+        setup:
+        Path targetDir = testProjectDir.getRoot().toPath()
+        Helpers.copyDirectory(fixtureProject, targetDir)
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+            }
+        '''
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('createVTComponents')
+            .withPluginClasspath()
+            .build()
+        then:
+        result.task(':createVTComponents').outcome == SUCCESS
+        when:
+        Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
+        listDirectory(distDir)
+        Path componentsZip = distDir.resolve(Constants.vtComponentsFileName)
+        then:
+        assert Files.exists(componentsZip)
     }
 
-    def "createVTExample task creates a Zip file"() {}
+    def "createVTExample task creates a Zip file"() {
+        setup:
+        Path targetDir = testProjectDir.getRoot().toPath()
+        Helpers.copyDirectory(fixtureProject, targetDir)
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+            }
+        '''
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('createVTExample')
+            .withPluginClasspath()
+            .build()
+        then:
+        result.task(':createVTExample').outcome == SUCCESS
+        when:
+        Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
+        listDirectory(distDir)
+        Path exampleZip = distDir.resolve(Constants.vtExampleFileName)
+        then:
+        assert Files.exists(exampleZip)
+    }
 
-    def "createDist task creates the build/dist directory"() {}
+    def "createDist task creates the build/dist directory"() {
+        setup:
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+            }
+        '''
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('createDist')
+            .withPluginClasspath()
+            .build()
+        then:
+        result.task(':createDist').outcome == SUCCESS
+        when:
+        Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
+        then:
+        assert Files.exists(distDir)
+    }
 
-    def "cleanDist task cleans the build/dist directory"() {}
+    @IgnoreRest
+    def "cleanDist task cleans the build/dist directory"() {
+        setup:
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+            }
+        '''
+        when:
+        def createResult = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('createDist')
+            .withPluginClasspath()
+            .build()
+        Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
+        Helpers.copyDirectory(fixtureProject, distDir)
+        def cleanResult = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('cleanDist')
+            .withPluginClasspath()
+            .build()
+        then:
+        cleanResult.task(':cleanDist').outcome == SUCCESS
+        when:
+        List<Path> files = Files.list(distDir).collect(Collectors.toList())
+        then:
+        assert files.size() == 0
+    }
 
-    def "distributables task creates 3 zip files in the build/dist directory"() {}
+    def "distributables task creates 3 zip files in the build/dist directory"() {
+        setup:
+        Path targetDir = testProjectDir.getRoot().toPath()
+        Helpers.copyDirectory(fixtureProject, targetDir)
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+            }
+        '''
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('distributables')
+            .withPluginClasspath()
+            .build()
+        then:
+        result.task(':distributables').outcome == SUCCESS
+        when:
+        Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
+        listDirectory(distDir)
+        Path gradlewZip = distDir.resolve(Constants.gradlewFileName)
+        Path componentsZip = distDir.resolve(Constants.vtComponentsFileName)
+        Path exampleZip = distDir.resolve(Constants.vtExampleFileName)
+        then:
+        assert Files.exists(gradlewZip)
+        assert Files.exists(componentsZip)
+        assert Files.exists(exampleZip)
+    }
 
     def "importVTComponents task downloads and extracts the zip"() {
         setup:
