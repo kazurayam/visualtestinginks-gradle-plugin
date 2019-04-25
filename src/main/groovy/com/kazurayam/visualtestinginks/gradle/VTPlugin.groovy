@@ -29,12 +29,12 @@ class VTPlugin implements Plugin<Project> {
         applyPlugins(project)
 
         // Extension object
-        VTPluginExtension extension = project.extensions.create("vt", VTPluginExtension)
+        def extension = project.extensions.create("vt", VTPluginExtension)
 
         // tasks to generate VisualTesting distributables
         Task createDistributableGradlew  = project.getTasks().create(
                 'createDistributableGradlew', Zip.class, {
-                    archiveFileName = Constants.gradlewFileName
+                    archiveFileName = extension.getDistributableGradlewFileName()
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
                         // include the gradle wrapper
@@ -47,7 +47,7 @@ class VTPlugin implements Plugin<Project> {
 
         Task createVTComponents = project.getTasks().create(
                 'createVTComponents', Zip.class, {
-                    archiveFileName = Constants.vtComponentsFileName
+                    archiveFileName = extension.getDistributableVTComponentsFileName()
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
                         include "Test Cases/VT/**"
@@ -63,7 +63,7 @@ class VTPlugin implements Plugin<Project> {
 
         Task createVTExample    = project.getTasks().create(
                 'createVTExample', Zip.class, {
-                    archiveFileName = Constants.vtExampleFileName
+                    archiveFileName = extension.getDistributableVTExampleFileName()
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
                         include "Profiles/CURA*"
@@ -123,8 +123,6 @@ class VTPlugin implements Plugin<Project> {
         enableVisualTesting.dependsOn(importVTComponents)
         enableVisualTesting.dependsOn(importVTExample)
         enableVisualTesting.dependsOn(updateDrivers)
-
-
 
         // for DEBUG: Add a task 'greeting' that uses configuration from the extension object
         Task greeting = project.task('greeting') {

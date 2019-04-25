@@ -12,10 +12,12 @@ class ImportVTExampleTask extends DefaultTask {
     @TaskAction
     void execute() {
         Project project = this.getProject()
+        VTPluginExtension extension = project.extensions.create("vt", VTPluginExtension)
+        String fileName = extension.distributableVTExampleFileName()
         Path tempDir = Files.createTempDirectory(ImportVTExampleTask.class.getSimpleName())
-        File zipFile = tempDir.resolve(Constants.vtExampleFileName).toFile()
+        File zipFile = tempDir.resolve(fileName).toFile()
         project.download.configure({
-            src "${Constants.vcsUrlPrefix}/${project.vt.version}/${Constants.vtExampleFileName}"
+            src "${Constants.VT_VCS_URL_PREFIX}/${project.vt.version}/${fileName}"
             dest zipFile
         })
         project.copy {

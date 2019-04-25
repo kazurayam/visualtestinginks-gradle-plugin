@@ -35,6 +35,7 @@ class VTPluginSpec extends Specification {
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -54,6 +55,7 @@ class VTPluginSpec extends Specification {
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -63,7 +65,7 @@ class VTPluginSpec extends Specification {
             .build()
         //println result.output
         then:
-        result.output.contains(Constants.vtComponentsFileName)
+        result.output.contains("vt-components-1.10.0.zip")
         result.task(":importVTComponents").outcome == SUCCESS
         when:
         Path testListenersDir = testProjectDir.root.toPath().resolve('Test Listeners')
@@ -78,6 +80,7 @@ class VTPluginSpec extends Specification {
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -87,7 +90,7 @@ class VTPluginSpec extends Specification {
             .build()
         listDirectory(testProjectDir.root.toPath())
         then:
-        result.output.contains(Constants.vtExampleFileName)
+        result.output.contains("vt-example-1.10.0.zip")
         result.task(":importVTExample").outcome == SUCCESS
         when:
         Path testCasesDir = testProjectDir.root.toPath().resolve('Test Cases')
@@ -109,6 +112,7 @@ class VTPluginSpec extends Specification {
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         vt.dependencies = [
             'https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar'
         ]
@@ -140,6 +144,7 @@ class VTPluginSpec extends Specification {
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         vt.dependencies = [
             'https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar'
         ]
@@ -168,7 +173,7 @@ class VTPluginSpec extends Specification {
 
 
     // ------------------------------------------------------------------------------
-
+    @IgnoreRest
     def ":createDistributableGradlew task creates a zip file"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
@@ -177,6 +182,7 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -189,7 +195,7 @@ class VTPluginSpec extends Specification {
         when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
-        Path gradlewZip = distDir.resolve(Constants.gradlewFileName)
+        Path gradlewZip = distDir.resolve("distributable-gradlew-1.10.0.zip")
         then:
         assert Files.exists(gradlewZip)
     }
@@ -202,6 +208,7 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -214,7 +221,7 @@ class VTPluginSpec extends Specification {
         when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
-        Path componentsZip = distDir.resolve(Constants.vtComponentsFileName)
+        Path componentsZip = distDir.resolve("vt-components-1.10.0.zip")
         then:
         assert Files.exists(componentsZip)
     }
@@ -227,6 +234,7 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -239,7 +247,7 @@ class VTPluginSpec extends Specification {
         when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
-        Path exampleZip = distDir.resolve(Constants.vtExampleFileName)
+        Path exampleZip = distDir.resolve("vt-example-1.10.0.zip")
         then:
         assert Files.exists(exampleZip)
     }
@@ -250,6 +258,7 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -272,6 +281,7 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def createResult = GradleRunner.create()
@@ -302,6 +312,7 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -314,9 +325,9 @@ class VTPluginSpec extends Specification {
         when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
-        Path gradlewZip = distDir.resolve(Constants.gradlewFileName)
-        Path componentsZip = distDir.resolve(Constants.vtComponentsFileName)
-        Path exampleZip = distDir.resolve(Constants.vtExampleFileName)
+        Path gradlewZip = distDir.resolve("distributable-gradlew-1.10.0.zip")
+        Path componentsZip = distDir.resolve("vt-components-1.10.0.zip")
+        Path exampleZip = distDir.resolve("vt-example-1.10.0.zip")
         then:
         assert Files.exists(gradlewZip)
         assert Files.exists(componentsZip)
@@ -330,6 +341,7 @@ class VTPluginSpec extends Specification {
                 id 'com.github.kazurayam.visualtestinginks'
                 id 'com.dorongold.task-tree' version '1.3.1'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -349,6 +361,7 @@ class VTPluginSpec extends Specification {
                 id 'com.github.kazurayam.visualtestinginks'
                 id 'com.dorongold.task-tree' version '1.3.1'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -371,6 +384,7 @@ class VTPluginSpec extends Specification {
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
