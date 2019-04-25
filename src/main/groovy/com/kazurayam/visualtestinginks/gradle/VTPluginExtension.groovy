@@ -1,7 +1,5 @@
 package com.kazurayam.visualtestinginks.gradle
 
-import java.nio.file.Path
-
 public class VTPluginExtension {
 
     /**
@@ -23,21 +21,16 @@ public class VTPluginExtension {
 
     String message = 'Hi from VTPlugin';
 
-    // https://guides.gradle.org/implementing-gradle-plugins/
-    void setVersion(String version) {
-        this.version = version
-    }
-    
     String getDistributableGradlewFileName() {
-        return "distributable-gradlew-${version}.zip"
+        return "distributable-gradlew-${this.version}.zip"
     }
 
     String getDistributableVTComponentsFileName() {
-        return "vt-components-${version}.zip"
+        return "vt-components-${this.version}.zip"
     }
 
     String getDistributableVTExampleFileName() {
-        return "vt-example-${version}.zip"
+        return "vt-example-${this.version}.zip"
     }
 
 }

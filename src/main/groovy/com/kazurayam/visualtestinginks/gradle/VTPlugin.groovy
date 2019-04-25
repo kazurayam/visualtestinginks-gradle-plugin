@@ -1,12 +1,9 @@
 package com.kazurayam.visualtestinginks.gradle
 
-import java.nio.file.Path
-
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.plugins.GroovyPlugin
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Delete
 import org.gradle.api.tasks.bundling.Zip
 
@@ -30,11 +27,11 @@ class VTPlugin implements Plugin<Project> {
 
         // Extension object
         def extension = project.extensions.create("vt", VTPluginExtension)
-
+        
         // tasks to generate VisualTesting distributables
-        Task createDistributableGradlew  = project.getTasks().create(
-                'createDistributableGradlew', Zip.class, {
-                    archiveFileName = extension.getDistributableGradlewFileName()
+        Task createDistributableGradlewZip  = project.getTasks().create(
+                'createDistributableGradlewZip', Zip.class, {
+                    archiveFileName = "distributable-gradlew.zip"
                     destinationDirectory = project.file("${project.buildDir}/dist")
                     from(".") {
                         // include the gradle wrapper
@@ -44,7 +41,15 @@ class VTPlugin implements Plugin<Project> {
                         include "gradle/**/*"
                     }
                 })
-
+        Task createDistributableGradlew = project.getTasks().create(
+                'createDistributableGradlew', {
+                    doLast {
+                        new File("${project.buildDir}/dist/distributable-gradlew.zip").
+                            renameTo("${project.buildDir}/dist/distributable-gradlew-${extension.version}.zip")
+                    }
+                })
+        createDistributableGradlew.dependsOn(createDistributableGradlewZip)
+        
         Task createVTComponents = project.getTasks().create(
                 'createVTComponents', Zip.class, {
                     archiveFileName = extension.getDistributableVTComponentsFileName()
