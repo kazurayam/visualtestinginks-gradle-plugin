@@ -23,6 +23,11 @@ public class VTPluginExtension {
 
     String message = 'Hi from VTPlugin';
 
+    // https://guides.gradle.org/implementing-gradle-plugins/
+    void setVersion(String version) {
+        this.version = version
+    }
+    
     String getDistributableGradlewFileName() {
         return "distributable-gradlew-${version}.zip"
     }
