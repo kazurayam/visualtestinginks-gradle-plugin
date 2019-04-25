@@ -8,3 +8,23 @@ Developer (kazurayam, it's me!) also uses this Gradle Plugin to generate distrib
 
 
 See https://kazurayam.github.io/visualtestinginks-gradle-plugin/ for technical details.
+
+
+```
+:distributables
++--- :cleanDist
+|    \--- :createDist
++--- :createDistributableGradlew
++--- :createVTComponents
+\--- :createVTExample
+
+```
+
+```
+:enableVisualTesting
++--- :importVTComponents
++--- :importVTExample
+\--- :updateDrivers
+     +--- :deleteExternalLibraries
+     \--- :importExternalLibraries
+```

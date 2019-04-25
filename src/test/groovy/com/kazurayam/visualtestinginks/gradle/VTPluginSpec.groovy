@@ -29,7 +29,7 @@ class VTPluginSpec extends Specification {
     /**
      *
      */
-    def "enableVisualTesting task depends on importVTComponents, importVTExample, updateDrivers"() {
+    def ":enableVisualTesting task depends on :importVTComponents, :importVTExample, :updateDrivers"() {
         given:
         buildFile << '''
         plugins {
@@ -48,7 +48,7 @@ class VTPluginSpec extends Specification {
     }
 
 
-    def "importVTComponents task downloads and extracts the zip"() {
+    def ":importVTComponents task downloads and extracts the zip"() {
         setup:
         buildFile << '''
         plugins {
@@ -72,7 +72,7 @@ class VTPluginSpec extends Specification {
         Files.exists(vtListener)
     }
 
-    def "importVTExample task downloads and extracts the zip"() {
+    def ":importVTExample task downloads and extracts the zip"() {
         setup:
         buildFile << '''
         plugins {
@@ -103,7 +103,7 @@ class VTPluginSpec extends Specification {
     /**
      *
      */
-    def "importExternalLibraries task downloads junit4ks-all.jar"() {
+    def ":importExternalLibraries task downloads junit4ks-all.jar"() {
         setup:
         buildFile << '''
         plugins {
@@ -134,7 +134,7 @@ class VTPluginSpec extends Specification {
     /**
      *
      */
-    def "deleteExternalLibraries task deletes Drivers/vt-* files"() {
+    def ":deleteExternalLibraries task deletes Drivers/vt-* files"() {
         setup:
         buildFile << '''
         plugins {
@@ -169,7 +169,7 @@ class VTPluginSpec extends Specification {
 
     // ------------------------------------------------------------------------------
 
-    def "createDistributableGradlew task creates a zip file"() {
+    def ":createDistributableGradlew task creates a zip file"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -194,7 +194,7 @@ class VTPluginSpec extends Specification {
         assert Files.exists(gradlewZip)
     }
 
-    def "createVTComponents task creates a Zip file"() {
+    def ":createVTComponents task creates a Zip file"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -219,7 +219,7 @@ class VTPluginSpec extends Specification {
         assert Files.exists(componentsZip)
     }
 
-    def "createVTExample task creates a Zip file"() {
+    def ":createVTExample task creates a Zip file"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -244,7 +244,7 @@ class VTPluginSpec extends Specification {
         assert Files.exists(exampleZip)
     }
 
-    def "createDist task creates the build/dist directory"() {
+    def ":createDist task creates the build/dist directory"() {
         setup:
         buildFile << '''
             plugins {
@@ -266,7 +266,7 @@ class VTPluginSpec extends Specification {
     }
 
 
-    def "cleanDist task cleans the build/dist directory"() {
+    def ":cleanDist task cleans the build/dist directory"() {
         setup:
         buildFile << '''
             plugins {
@@ -294,7 +294,7 @@ class VTPluginSpec extends Specification {
         assert files.size() == 0
     }
 
-    def "distributables task creates 3 zip files in the build/dist directory"() {
+    def ":distributables task creates 3 zip files in the build/dist directory"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -323,11 +323,49 @@ class VTPluginSpec extends Specification {
         assert Files.exists(exampleZip)
     }
 
+    def "let us have a look at taskTree of the :distributables task"() {
+        setup:
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+                id 'com.dorongold.task-tree' version '1.3.1'
+            }
+        '''
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('distributables', 'taskTree')
+            .withPluginClasspath()
+            .build()
+        println "${result.output}"
+        then:
+        result.task(':taskTree').outcome == SUCCESS
+    }
+
+    def "let us have a look at taskTree of the :enableVisualTesting task"() {
+        setup:
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+                id 'com.dorongold.task-tree' version '1.3.1'
+            }
+        '''
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('enableVisualTesting', 'taskTree')
+            .withPluginClasspath()
+            .build()
+        println "${result.output}"
+        then:
+        result.task(':taskTree').outcome == SUCCESS
+    }
+
     /**
      *
      */
     @Ignore
-    def "greeting task prints Hi from VTPlugin"() {
+    def ":greeting task prints Hi from VTPlugin"() {
         given:
         buildFile << '''
         plugins {

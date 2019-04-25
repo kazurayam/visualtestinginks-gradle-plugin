@@ -14,8 +14,10 @@ class VTPlugin implements Plugin<Project> {
 
     private void applyPlugins(Project project) {
         project.getPluginManager().apply(GroovyPlugin.class)
+
         // https://github.com/michel-kraemer/gradle-download-task
         project.getPluginManager().apply('de.undercouch.download')
+
     }
 
     /**
