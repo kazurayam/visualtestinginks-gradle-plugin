@@ -31,6 +31,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:2.5.4'
+    
     // https://mvnrepository.com/artifact/de.undercouch/gradle-download-task
     implementation group: 'de.undercouch', name: 'gradle-download-task', version: '3.4.3'
 
