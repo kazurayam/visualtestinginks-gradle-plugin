@@ -103,24 +103,28 @@ class VTPlugin implements Plugin<Project> {
                 'importVTComponents', ImportVTComponentsTask.class)
         Task importVTExample    = project.getTasks().create(
                 'importVTExample', ImportVTExampleTask.class)
-        Task importVT = project.getTasks().create(
-                'importVT')
-        importVT.dependsOn(importVTComponents)
-        importVT.dependsOn(importVTExample)
 
-        // tasks to manage jar files in the Drivers directory in the people's VisualTesting projects
-        Task deleteDependencies = project.getTasks().create(
-                'deleteDependencies', DeleteDependenciesTask.class)
-        Task downloadDependencies = project.getTasks().create(
-                'downloadDependencies', DownloadDependenciesTask.class)
-        Task vtDependencies = project.getTasks().create(
-                'vtDependencies')
-        vtDependencies.dependsOn(deleteDependencies)
-        vtDependencies.dependsOn(downloadDependencies)
-        downloadDependencies.mustRunAfter('deleteDependencies')
+        // tasks to update jar files in the Drivers directory in a Katalon Studio project
+        Task deleteExternalLibraries = project.getTasks().create(
+                'deleteExternalLibraries', DeleteExternalLibrariesTask.class)
+        Task importExternalLibraries = project.getTasks().create(
+                'importExternalLibraries', ImportExternalLibrariesTask.class)
+        Task updateDrivers = project.getTasks().create(
+                'updateDrivers')
+        updateDrivers.dependsOn(deleteExternalLibraries)
+        updateDrivers.dependsOn(importExternalLibraries)
+        importExternalLibraries.mustRunAfter('deleteExternalLibraries')
+
+        // task as a single entry point, which enables a new Katalon Project of VisualTesting
+        Task enableVisualTesting = project.getTasks().create(
+                'enableVisualTesting')
+        enableVisualTesting.dependsOn(importVTComponents)
+        enableVisualTesting.dependsOn(importVTExample)
+        enableVisualTesting.dependsOn(updateDrivers)
 
 
-        // Add a task 'greeting' that uses configuration from the extension object
+
+        // for DEBUG: Add a task 'greeting' that uses configuration from the extension object
         Task greeting = project.task('greeting') {
             doLast {
                 println extension.message
