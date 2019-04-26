@@ -29,12 +29,13 @@ class VTPluginSpec extends Specification {
     /**
      *
      */
-    def "enableVisualTesting task depends on importVTComponents, importVTExample, updateDrivers"() {
+    def ":enableVisualTesting task depends on :importVTComponents, :importVTExample, :updateDrivers"() {
         given:
         buildFile << '''
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -47,13 +48,13 @@ class VTPluginSpec extends Specification {
 
     }
 
-
-    def "importVTComponents task downloads and extracts the zip"() {
+    def ":importVTComponents task downloads and extracts the zip"() {
         setup:
         buildFile << '''
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -61,9 +62,9 @@ class VTPluginSpec extends Specification {
             .withArguments('importVTComponents')
             .withPluginClasspath()
             .build()
-        //println result.output
+        listDirectory(testProjectDir.root.toPath())
         then:
-        result.output.contains(Constants.vtComponentsFileName)
+        result.output.contains("${Constants.VT_DIST_COMPONENTS_PREFIX}-1.10.0.zip")
         result.task(":importVTComponents").outcome == SUCCESS
         when:
         Path testListenersDir = testProjectDir.root.toPath().resolve('Test Listeners')
@@ -72,12 +73,13 @@ class VTPluginSpec extends Specification {
         Files.exists(vtListener)
     }
 
-    def "importVTExample task downloads and extracts the zip"() {
+    def ":importVTExample task downloads and extracts the zip"() {
         setup:
         buildFile << '''
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
+        vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -87,7 +89,7 @@ class VTPluginSpec extends Specification {
             .build()
         listDirectory(testProjectDir.root.toPath())
         then:
-        result.output.contains(Constants.vtExampleFileName)
+        result.output.contains("vt-example-1.10.0.zip")
         result.task(":importVTExample").outcome == SUCCESS
         when:
         Path testCasesDir = testProjectDir.root.toPath().resolve('Test Cases')
@@ -103,7 +105,7 @@ class VTPluginSpec extends Specification {
     /**
      *
      */
-    def "importExternalLibraries task downloads junit4ks-all.jar"() {
+    def ":importExternalLibraries task downloads junit4ks-all.jar"() {
         setup:
         buildFile << '''
         plugins {
@@ -134,7 +136,7 @@ class VTPluginSpec extends Specification {
     /**
      *
      */
-    def "deleteExternalLibraries task deletes Drivers/vt-* files"() {
+    def ":deleteExternalLibraries task deletes Drivers/vt-* files"() {
         setup:
         buildFile << '''
         plugins {
@@ -168,8 +170,8 @@ class VTPluginSpec extends Specification {
 
 
     // ------------------------------------------------------------------------------
-
-    def "createDistributableGradlew task creates a zip file"() {
+    
+    def ":createDistributableGradlewWithVersion task creates a zip file"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -177,24 +179,26 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
-            .withArguments("createDistributableGradlew")
+            .withArguments("createDistributableGradlewWithVersion")
             .withPluginClasspath()
             .build()
         then:
-        result.task(":createDistributableGradlew").outcome == SUCCESS
+        result.task(":createDistributableGradlewWithVersion").outcome == SUCCESS
         when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
-        Path gradlewZip = distDir.resolve(Constants.gradlewFileName)
+        Path gradlewZip = distDir.resolve("${Constants.VT_DIST_GRADLEW_PREFIX}-1.10.0.zip")
         then:
         assert Files.exists(gradlewZip)
     }
 
-    def "createVTComponents task creates a Zip file"() {
+    
+    def ":createVTComponentsWithVersion task creates a Zip file"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -202,24 +206,25 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
-            .withArguments("createVTComponents")
+            .withArguments("createVTComponentsWithVersion")
             .withPluginClasspath()
             .build()
         then:
-        result.task(":createVTComponents").outcome == SUCCESS
+        result.task(":createVTComponentsWithVersion").outcome == SUCCESS
         when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
-        Path componentsZip = distDir.resolve(Constants.vtComponentsFileName)
+        Path componentsZip = distDir.resolve("${Constants.VT_DIST_COMPONENTS_PREFIX}-1.10.0.zip")
         then:
         assert Files.exists(componentsZip)
     }
 
-    def "createVTExample task creates a Zip file"() {
+    def ":createVTExample task creates a Zip file"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -227,24 +232,25 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
-            .withArguments("createVTExample")
+            .withArguments("createVTExampleWithVersion")
             .withPluginClasspath()
             .build()
         then:
-        result.task(":createVTExample").outcome == SUCCESS
+        result.task(":createVTExampleWithVersion").outcome == SUCCESS
         when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
-        Path exampleZip = distDir.resolve(Constants.vtExampleFileName)
+        Path exampleZip = distDir.resolve("${Constants.VT_DIST_EXAMPLE_PREFIX}-1.10.0.zip")
         then:
         assert Files.exists(exampleZip)
     }
 
-    def "createDist task creates the build/dist directory"() {
+    def ":createDist task creates the build/dist directory"() {
         setup:
         buildFile << '''
             plugins {
@@ -266,7 +272,7 @@ class VTPluginSpec extends Specification {
     }
 
 
-    def "cleanDist task cleans the build/dist directory"() {
+    def ":cleanDist task cleans the build/dist directory"() {
         setup:
         buildFile << '''
             plugins {
@@ -294,7 +300,7 @@ class VTPluginSpec extends Specification {
         assert files.size() == 0
     }
 
-    def "distributables task creates 3 zip files in the build/dist directory"() {
+    def ":distributables task creates 3 zip files in the build/dist directory"() {
         setup:
         Path targetDir = testProjectDir.getRoot().toPath()
         Helpers.copyDirectory(fixtureProject, targetDir)
@@ -302,6 +308,7 @@ class VTPluginSpec extends Specification {
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
             }
+            vt.version = '1.10.0'
         '''
         when:
         def result = GradleRunner.create()
@@ -314,20 +321,59 @@ class VTPluginSpec extends Specification {
         when:
         Path distDir = testProjectDir.root.toPath().resolve('build').resolve('dist')
         listDirectory(distDir)
-        Path gradlewZip = distDir.resolve(Constants.gradlewFileName)
-        Path componentsZip = distDir.resolve(Constants.vtComponentsFileName)
-        Path exampleZip = distDir.resolve(Constants.vtExampleFileName)
+        Path gradlewZip = distDir.resolve("distributable-gradlew-1.10.0.zip")
+        Path componentsZip = distDir.resolve("vt-components-1.10.0.zip")
+        Path exampleZip = distDir.resolve("vt-example-1.10.0.zip")
         then:
         assert Files.exists(gradlewZip)
         assert Files.exists(componentsZip)
         assert Files.exists(exampleZip)
     }
 
+    def "let us have a look at taskTree of the :distributables task"() {
+        setup:
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+                id 'com.dorongold.task-tree' version '1.3.1'
+            }
+        '''
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('distributables', 'taskTree')
+            .withPluginClasspath()
+            .build()
+        println "${result.output}"
+        then:
+        result.task(':taskTree').outcome == SUCCESS
+    }
+
+    def "let us have a look at taskTree of the :enableVisualTesting task"() {
+        setup:
+        buildFile << '''
+            plugins {
+                id 'com.github.kazurayam.visualtestinginks'
+                id 'com.dorongold.task-tree' version '1.3.1'
+            }
+            vt.version = '1.10.0'
+        '''
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments('enableVisualTesting', 'taskTree')
+            .withPluginClasspath()
+            .build()
+        println "${result.output}"
+        then:
+        result.task(':taskTree').outcome == SUCCESS
+    }
+
     /**
      *
      */
     @Ignore
-    def "greeting task prints Hi from VTPlugin"() {
+    def ":greeting task prints Hi from VTPlugin"() {
         given:
         buildFile << '''
         plugins {

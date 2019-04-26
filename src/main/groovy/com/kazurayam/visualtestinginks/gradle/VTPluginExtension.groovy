@@ -1,10 +1,13 @@
 package com.kazurayam.visualtestinginks.gradle
 
-import java.nio.file.Path
-
 public class VTPluginExtension {
 
-    String version = '1.9.2'
+    /**
+     *  The version of "VisualTestingInKatalonStudio" project.
+     *  The default is '0.0.0', which should not be used.
+     *  Should be always overridden by build.gradle
+     */
+    String version = '0.0.0'
 
     List<String> dependencies = [
         'http://central.maven.org/maven2/ru/yandex/qatools/ashot/ashot/1.5.4/ashot-1.5.4.jar',
@@ -17,5 +20,7 @@ public class VTPluginExtension {
     ]
 
     String message = 'Hi from VTPlugin';
+
+    String repositoryUrlPrefix = "https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download"
 
 }

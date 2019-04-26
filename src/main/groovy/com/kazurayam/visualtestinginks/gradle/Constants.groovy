@@ -4,14 +4,14 @@ class Constants {
 
     private Constants() {}
 
-    static final String vcsUrlPrefix  = "https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download"
-
-    static final String gradlewFileName = 'distributable-gradlew.zip'
-
-    static final String vtComponentsFileName = 'vt-components.zip'
-
-    static final String vtExampleFileName = 'vt-example.zip'
+    //static final String VT_VCS_URL_PREFIX  = "https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download"
 
     static final String VT_EXTERNALLIBRARY_PREFIX = 'vt-'
+
+    static final String VT_DIST_GRADLEW_PREFIX = 'distributable-gradlew'
+
+    static final String VT_DIST_COMPONENTS_PREFIX = 'vt-components'
+
+    static final String VT_DIST_EXAMPLE_PREFIX = 'vt-example'
 
 }
