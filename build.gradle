@@ -10,7 +10,7 @@ plugins {
 
 group = 'com.kazurayam'
 jar.baseName = 'visualtestinginks-gradle-plugin'
-version = '0.1.2'
+version = '0.1.3'
 
 // applying built-in plugins
 apply plugin: 'groovy'
@@ -62,6 +62,12 @@ gradlePlugin {
 }
 // $ gradle publishPlugins
 
+task echoVersion {
+    doLast {
+        println "id \'com.github.kazurayam.visualtestinginks\' version \'${version}\'"
+    }
+}
+
 publishing {
     publications {
         pluginPublication (MavenPublication) {
@@ -73,6 +79,7 @@ publishing {
     }
 }
 publishToMavenLocal.dependsOn jar
+publishToMavenLocal.finalizedBy echoVersion
 
 // $ gradle publishToMavenLocal
 
