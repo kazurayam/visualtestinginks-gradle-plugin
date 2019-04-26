@@ -74,6 +74,10 @@ publishToMavenLocal.dependsOn jar
 
 // $ gradle publishToMavenLocal
 
+
+// VTPluginSpec runs org.gradle.testkit.runner.GradleRunner instance.
+// The GradleRunner runs on another JVM apart from the current JVM as this build runs.
+// If we are behind proxy, we need to pass the Proxy settings to the JVM for GradleRunner. 
 tasks.withType(Test) {
     if (System.getProperty('http.proxyHost') != null) {
         systemProperty 'http.proxyHost' , System.getProperty('http.proxyHost')

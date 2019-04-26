@@ -12,18 +12,32 @@ class ImportVTComponentsTask extends DefaultTask {
     @TaskAction
     void execute() {
         Project project = this.getProject()
-        VTPluginExtension extension = project.extensions.create("vt", VTPluginExtension)
-        String fileName = extension.distributableVTComponentsFileName()
+        def extension = project.extensions.findByName("vt")
+        if (extension == null) {
+            extension = project.extensions.create("vt", VTPluginExtension)
+        }
+        String fileName = "${Constants.VT_DIST_COMPONENTS_PREFIX}-${project.vt.version}.zip"
+        String sourceURL = "${project.vt.repositoryUrlPrefix}/${project.vt.version}/${fileName}"
         Path tempDir = Files.createTempDirectory(ImportVTComponentsTask.class.getSimpleName())
-        File zipFile = tempDir.resolve(fileName).toFile()
+        File outFile = tempDir.resolve(fileName).toFile()
+        diagnoze(sourceURL, outFile)
         project.download.configure({
-            src "${Constants.VT_VCS_URL_PREFIX}/${project.vt.version}/${fileName}"
-            dest zipFile
+            src sourceURL
+            dest outFile
+            overwrite true
         })
         project.copy {
-            from project.zipTree(zipFile)
+            from project.zipTree(outFile)
             into project.projectDir
         }
         Helpers.deleteDirectory(tempDir)
+    }
+    
+    void diagnoze(String sourceURL, File outFile) {
+        println "downloading sourceURL=${sourceURL} into ${outFile.toString()}"
+        println "System.getProperty('http.proxyHost')=${System.getProperty('http.proxyHost')}"
+        println "System.getProperty('http.proxyPort')=${System.getProperty('http.proxyPort')}"
+        println "System.getProperty('https.proxyHost')=${System.getProperty('https.proxyHost')}"
+        println "System.getProperty('https.proxyPort')=${System.getProperty('https.proxyPort')}"
     }
 }

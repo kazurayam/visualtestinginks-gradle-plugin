@@ -9,20 +9,23 @@ import org.gradle.api.tasks.TaskAction
 
 class ImportExternalLibrariesTask extends DefaultTask {
 
-
     @TaskAction
     void execute() {
         Project project = this.getProject()
         Path driversDir = project.projectDir.toPath().resolve('Drivers')
         Files.createDirectories(driversDir)
-        for (String url: project.vt.dependencies) {
-            String fileName = "${Constants.VT_EXTERNALLIBRARY_PREFIX}${url.tokenize('/')[-1]}"
+        for (String sourceUrl: project.vt.dependencies) {
+            String fileName = "${Constants.VT_EXTERNALLIBRARY_PREFIX}${sourceUrl.tokenize('/')[-1]}"
+            File outFile = driversDir.resolve(fileName).toFile()
             project.download.configure({
-                src url
-                dest driversDir.resolve(fileName).toFile()
+                src sourceUrl
+                dest outFile
             })
-            //logger.info("downloaded ${url} into ${driversDir} as ${fileName}")
+            println("downloaded ${sourceUrl} into ${driversDir} as ${fileName}")
         }
     }
-
+    
+    void diagnoze(String sourceURL, File outFile) {
+        println "downloading sourceURL=${sourceURL} into ${outFile.toString()}"
+    }
 }

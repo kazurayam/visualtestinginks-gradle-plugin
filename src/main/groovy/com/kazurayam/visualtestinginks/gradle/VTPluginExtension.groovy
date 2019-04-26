@@ -21,16 +21,6 @@ public class VTPluginExtension {
 
     String message = 'Hi from VTPlugin';
 
-    String getDistributableGradlewFileName() {
-        return "distributable-gradlew-${this.version}.zip"
-    }
-
-    String getDistributableVTComponentsFileName() {
-        return "vt-components-${this.version}.zip"
-    }
-
-    String getDistributableVTExampleFileName() {
-        return "vt-example-${this.version}.zip"
-    }
+    String repositoryUrlPrefix = "https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download"
 
 }

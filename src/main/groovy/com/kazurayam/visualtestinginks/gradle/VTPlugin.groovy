@@ -28,11 +28,14 @@ class VTPlugin implements Plugin<Project> {
         // Extension object
         def extension = project.extensions.create("vt", VTPluginExtension)
         
-        // tasks to generate VisualTesting distributables
-        Task createDistributableGradlewZip  = project.getTasks().create(
-                'createDistributableGradlewZip', Zip.class, {
-                    archiveFileName = "distributable-gradlew.zip"
-                    destinationDirectory = project.file("${project.buildDir}/dist")
+        String DIST = "${project.buildDir}/dist"
+
+        // --------------------------------------------------------------------------
+        // tasks which create distributable zip files in the build/dist directory
+        Task createDistributableGradlew  = project.getTasks().create(
+                'createDistributableGradlew', Zip.class, {
+                    archiveFileName = "${Constants.VT_DIST_GRADLEW_PREFIX}.zip"
+                    destinationDirectory = project.file("${DIST}")
                     from(".") {
                         // include the gradle wrapper
                         include "gradlew"
@@ -41,19 +44,20 @@ class VTPlugin implements Plugin<Project> {
                         include "gradle/**/*"
                     }
                 })
-        Task createDistributableGradlew = project.getTasks().create(
-                'createDistributableGradlew', {
+        Task createDistributableGradlewWithVersion = project.getTasks().create(
+                'createDistributableGradlewWithVersion', {
                     doLast {
-                        new File("${project.buildDir}/dist/distributable-gradlew.zip").
-                            renameTo("${project.buildDir}/dist/distributable-gradlew-${extension.version}.zip")
+                        new File("${DIST}/${Constants.VT_DIST_GRADLEW_PREFIX}.zip")
+                            .renameTo("${DIST}/${Constants.VT_DIST_GRADLEW_PREFIX}-${extension.version}.zip")
                     }
                 })
-        createDistributableGradlew.dependsOn(createDistributableGradlewZip)
+        createDistributableGradlewWithVersion.dependsOn(createDistributableGradlew)
+        
         
         Task createVTComponents = project.getTasks().create(
                 'createVTComponents', Zip.class, {
-                    archiveFileName = extension.getDistributableVTComponentsFileName()
-                    destinationDirectory = project.file("${project.buildDir}/dist")
+                    archiveFileName = "${Constants.VT_DIST_COMPONENTS_PREFIX}.zip"
+                    destinationDirectory = project.file("${DIST}")
                     from(".") {
                         include "Test Cases/VT/**"
                         include "Scripts/VT/**"
@@ -65,11 +69,19 @@ class VTPlugin implements Plugin<Project> {
                         include ".gitignore"
                     }
                 })
+        Task createVTComponentsWithVersion = project.getTasks().create(
+                'createVTComponentsWithVersion', {
+                    doLast {
+                        new File("${DIST}/${Constants.VT_DIST_COMPONENTS_PREFIX}.zip")
+                            .renameTo("${DIST}/${Constants.VT_DIST_COMPONENTS_PREFIX}-${extension.version}.zip")
+                    }
+                })
+        createVTComponentsWithVersion.dependsOn(createVTComponents)
 
-        Task createVTExample    = project.getTasks().create(
+        Task createVTExample = project.getTasks().create(
                 'createVTExample', Zip.class, {
-                    archiveFileName = extension.getDistributableVTExampleFileName()
-                    destinationDirectory = project.file("${project.buildDir}/dist")
+                    archiveFileName = "${Constants.VT_DIST_EXAMPLE_PREFIX}.zip"
+                    destinationDirectory = project.file("${DIST}")
                     from(".") {
                         include "Profiles/CURA*"
                         include "Test Cases/CURA/**"
@@ -79,14 +91,21 @@ class VTPlugin implements Plugin<Project> {
                         include "vt-run-CURA*"
                     }
                 })
+        Task createVTExampleWithVersion = project.getTasks().create(
+                'createVTExampleWithVersion', {
+                    doLast {
+                        new File("${DIST}/${Constants.VT_DIST_EXAMPLE_PREFIX}.zip")
+                            .renameTo("${DIST}/${Constants.VT_DIST_EXAMPLE_PREFIX}-${extension.version}.zip")
+                    }
+                })
+        createVTExampleWithVersion.dependsOn(createVTExample)
 
         Task createDist = project.getTasks().create(
             'createDist', {
                 doLast {
-                    project.mkdir "${project.buildDir}/dist"
+                    project.mkdir "${DIST}"
                 }
             })
-
         Task cleanDist = project.getTasks().create(
                 'cleanDist', Delete.class, {
                     def dirName = "build/dist"
@@ -97,21 +116,22 @@ class VTPlugin implements Plugin<Project> {
         cleanDist.dependsOn(createDist)
 
         Task distributables = project.getTasks().create('distributables')
+        distributables.dependsOn(createDistributableGradlewWithVersion)
+        distributables.dependsOn(createVTComponentsWithVersion)
+        distributables.dependsOn(createVTExampleWithVersion)
         distributables.dependsOn(cleanDist)
-        distributables.dependsOn(createDistributableGradlew)
-        distributables.dependsOn(createVTComponents)
-        distributables.dependsOn(createVTExample)
         createDistributableGradlew.mustRunAfter('cleanDist')
         createVTComponents.mustRunAfter('cleanDist')
         createVTExample.mustRunAfter('cleanDist')
 
-        // tasks to import distributables into the people's VisualTesting projects
+        // ---------------------------------------------------------------------------
+        // tasks which import distributables into the people's VisualTesting projects
         Task importVTComponents = project.getTasks().create(
                 'importVTComponents', ImportVTComponentsTask.class)
         Task importVTExample    = project.getTasks().create(
                 'importVTExample', ImportVTExampleTask.class)
 
-        // tasks to update jar files in the Drivers directory in a Katalon Studio project
+        // tasks which update jar files in the Drivers directory in a Katalon Studio project
         Task deleteExternalLibraries = project.getTasks().create(
                 'deleteExternalLibraries', DeleteExternalLibrariesTask.class)
         Task importExternalLibraries = project.getTasks().create(
@@ -122,13 +142,16 @@ class VTPlugin implements Plugin<Project> {
         updateDrivers.dependsOn(importExternalLibraries)
         importExternalLibraries.mustRunAfter('deleteExternalLibraries')
 
-        // task as a single entry point, which enables a new Katalon Project of VisualTesting
+        // -------------------------------------------------------------------------
+        // task which enables a new Katalon Project of VisualTesting
         Task enableVisualTesting = project.getTasks().create(
                 'enableVisualTesting')
         enableVisualTesting.dependsOn(importVTComponents)
         enableVisualTesting.dependsOn(importVTExample)
         enableVisualTesting.dependsOn(updateDrivers)
 
+        
+        
         // for DEBUG: Add a task 'greeting' that uses configuration from the extension object
         Task greeting = project.task('greeting') {
             doLast {
