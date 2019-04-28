@@ -6,6 +6,7 @@
 // applying community plugins
 plugins {
     id "com.gradle.plugin-publish" version "0.10.1"
+    id "com.dorongold.task-tree" version "1.3.1"
 }
 
 group = 'com.kazurayam'
@@ -32,7 +33,7 @@ repositories {
 
 dependencies {
     implementation 'org.codehaus.groovy:groovy-all:2.5.4'
-    
+
     // https://mvnrepository.com/artifact/de.undercouch/gradle-download-task
     implementation group: 'de.undercouch', name: 'gradle-download-task', version: '3.4.3'
 
@@ -86,7 +87,7 @@ publishToMavenLocal.finalizedBy echoVersion
 
 // VTPluginSpec runs org.gradle.testkit.runner.GradleRunner instance.
 // The GradleRunner runs on another JVM apart from the current JVM as this build runs.
-// If we are behind proxy, we need to pass the Proxy settings to the JVM for GradleRunner. 
+// If we are behind proxy, we need to pass the Proxy settings to the JVM for GradleRunner.
 tasks.withType(Test) {
     if (System.getProperty('http.proxyHost') != null) {
         systemProperty 'http.proxyHost' , System.getProperty('http.proxyHost')
