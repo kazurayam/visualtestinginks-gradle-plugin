@@ -6,11 +6,12 @@
 // applying community plugins
 plugins {
     id "com.gradle.plugin-publish" version "0.10.1"
+    id "com.dorongold.task-tree" version "1.3.1"
 }
 
 group = 'com.kazurayam'
 jar.baseName = 'visualtestinginks-gradle-plugin'
-version = '0.1.2'
+version = '0.1.3'
 
 // applying built-in plugins
 apply plugin: 'groovy'
@@ -32,7 +33,7 @@ repositories {
 
 dependencies {
     implementation 'org.codehaus.groovy:groovy-all:2.5.4'
-    
+
     // https://mvnrepository.com/artifact/de.undercouch/gradle-download-task
     implementation group: 'de.undercouch', name: 'gradle-download-task', version: '3.4.3'
 
@@ -55,12 +56,18 @@ gradlePlugin {
             id = "com.github.kazurayam.visualtestinginks"
             version = "${version}"
             displayName = "A Gradle Plugin for any Katalon Studio users to import the \"Visual Testing in Katalon Studio\" components into your Katalon Studio projects."
-            description = "With this Gradle Plugin you can import the components (Test Cases, Test Suites, Test Listener, Keywords) into your own Katalon Studio project and make it capable of running WebUI screenshot comparison testings."
+            description = "With this Gradle Plugin you can import the components of \"Visual Testing in Katalon Studio\"(Test Cases, Test Suites, Test Listener, Keywords) into your own Katalon Studio project and make it capable of running WebUI screenshot comparison testings."
             implementationClass = "com.kazurayam.visualtestinginks.gradle.VTPlugin"
         }
     }
 }
 // $ gradle publishPlugins
+
+task echoVersion {
+    doLast {
+        println "id \'com.github.kazurayam.visualtestinginks\' version \'${version}\'"
+    }
+}
 
 publishing {
     publications {
@@ -73,13 +80,14 @@ publishing {
     }
 }
 publishToMavenLocal.dependsOn jar
+publishToMavenLocal.finalizedBy echoVersion
 
 // $ gradle publishToMavenLocal
 
 
 // VTPluginSpec runs org.gradle.testkit.runner.GradleRunner instance.
 // The GradleRunner runs on another JVM apart from the current JVM as this build runs.
-// If we are behind proxy, we need to pass the Proxy settings to the JVM for GradleRunner. 
+// If we are behind proxy, we need to pass the Proxy settings to the JVM for GradleRunner.
 tasks.withType(Test) {
     if (System.getProperty('http.proxyHost') != null) {
         systemProperty 'http.proxyHost' , System.getProperty('http.proxyHost')

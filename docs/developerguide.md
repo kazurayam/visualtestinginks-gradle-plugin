@@ -1,23 +1,41 @@
 Developer Guide of Gradle Plugin com.github.visualtestinginks
 ====================================
 
-## Operation
+## Overview
 
-### How to test the Plugin scripts locally before publishing
+1. In this `visualtestinginks-gradle-plugin` project, the developer (kazurayam) develops the Gradle Plugin `com.github.kazurayam.visualtestinginks` . He publishes the plugn to the [Gradle Plugin Portal](https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks).
+2. The developer (kazurayam) applies the Gradle Plugin `com.github.kazurayam.visualtestinginks` to build the [`VisualTestingInKataloStudio`](https://github.com/kazurayam/VisualTestingInKatalonStudio) project. With build.gradle, he creates a set of distributable zip files which contain the resources(codes) that makes  `VisualTestingInKatalonStudio`. He uploads those files to the [Releases page](https://github.com/kazurayam/VisualTestingInKatalonStudio)
+3. Any Katalon Studio user who is interested in `VisualTestingInKatalonStudio` can use [Gradle Build Tool](https://gradle.org/) and the Gradle Plugin [`com.github.kazurayam.visualtestinginks`](https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks) to make his/her own Katalon Studio project capable of screenshot comparison testings in a way that `VisualTestingInKatalonStudio` promotes.
+
+In this Developer Guide, I will describe the 1st and 2nd usecases above. The 3rd usecase will be described in the [User Guide](./userguide.md).
+
+## 1. Developing the Plugin
+
+In the `visualtestinginks-gradle-plugin` project, the developer (kazurayam, it's me) can execute the following 3 Gradle tasks.
+
+### build.gradle
+
+[visualtestinginks-gradle-plugin/build.gradle](../build.gradle)
+
+### Operation
+
+#### (a) How to test the Plugin scripts using Spock locally
 
 ```
 $ cd <projectDir>
 $ ./gradlew test
 ```
 
-### How to publish the Plugin into the Maven Local repository on my PC
+kazurayam can see the test report at `<projectDir>/build/reports/tests/test/index.html`
+
+#### (b) How to publish the Plugin into the Maven Local repository on my PC
 
 ```
 $ cd <projectDir>
 $ ./gradlew publishToMavenLocal
 ```
 
-### How to publish the Plugin to the Gradle Plugin Portal
+#### (c) How to publish the Plugin to the Gradle Plugin Portal
 
 See [How do I add my plugin to the plugin portal?](https://plugins.gradle.org/docs/submit) for definitive instruction.
 
@@ -34,10 +52,49 @@ $ cd <projectDir>
 $ ./gradlew publishPlugins
 ```
 
-## References
 
-- [Writing Gradle Plugins](https://guides.gradle.org/writing-gradle-plugins/)
+## 2. Distributing VisualTestingInKatalonStudio
 
-- [Publishing Plugins to the Gradle Plugin Portal](https://guides.gradle.org/publishing-plugins-to-gradle-plugin-portal/)
 
-- I learned how to publish a custom Gradle Plugin to the local mave repository by [How to write, test and publish a custom Gradle plugin](https://www.praqma.com/stories/gradle-plugin-bootstrap/)
+### Task tree
+
+
+In the VisualTestingInKatalonStudio project, kazurayam created [`build.gradle`](https://github.com/kazurayam/VisualTestingInKatalonStudio/blob/master/build.gradle) file as follows:
+```
+plugins {
+    id "com.github.kazurayam.visualtestinginks" version="X.X.X"
+}
+```
+where `X.X.X` portion should be the latest version of the Gradle Plugin `com.kazurayam.visualtestinginks` publshed at the [Gradle Plugin Portal]()
+
+By applying the plugin, a set of Gradle tasks become executable. Among others, the `:distributables` task is the entry point of execution for kazurayam to generate the zip files.
+
+```
+:distributables
++--- :cleanDist
+|    \--- :createDist
++--- :createDistributableGradlewWithVersion
+|    \--- :createDistributableGradlew
++--- :createVTComponentsWithVersion
+|    \--- :createVTComponents
+\--- :createVTExampleWithVersion
+     \--- :createVTExample
+```
+
+kazuarayam will execute the task as follows:
+
+```
+$ cd %VisualTestingInKatalonStudio%
+$ gradle distributables
+```
+
+Once done, in the `build\dist` directory, 3 zip files will be created:
+
+```
+build\dist
+|-- distributable-gradlew.zip
+|-- vt-components.zip
+`-- vt-example.zip
+```
+
+kazurayam will upload the 3 zip files to the [Github Releases page](https://github.com/kazurayam/VisualTestingInKatalonStudio/releases) for distribution.
