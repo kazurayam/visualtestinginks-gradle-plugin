@@ -56,7 +56,7 @@ gradlePlugin {
             id = "com.github.kazurayam.visualtestinginks"
             version = "${version}"
             displayName = "A Gradle Plugin for any Katalon Studio users to import the \"Visual Testing in Katalon Studio\" components into your Katalon Studio projects."
-            description = "With this Gradle Plugin you can import the components (Test Cases, Test Suites, Test Listener, Keywords) into your own Katalon Studio project and make it capable of running WebUI screenshot comparison testings."
+            description = "With this Gradle Plugin you can import the components of \"Visual Testing in Katalon Studio\"(Test Cases, Test Suites, Test Listener, Keywords) into your own Katalon Studio project and make it capable of running WebUI screenshot comparison testings."
             implementationClass = "com.kazurayam.visualtestinginks.gradle.VTPlugin"
         }
     }
