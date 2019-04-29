@@ -72,6 +72,6 @@ $ .\gradlewks -b build.gradle enableVisualTesting
 
 see [User Guide](docs/userguide.md) for detail instruction.
 
-## How kazurayam publishes vt-components-X.X.X.zip and other distributables
+## How kazurayam develops the Gradle Plugin, and publishes the Visual Testing distributables
 
 see [Developer Guide](docs/developerguide.md) for detail information.
