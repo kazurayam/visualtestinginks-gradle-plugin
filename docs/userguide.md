@@ -1,10 +1,12 @@
 User Guide of Gradle Plugin com.github.visualtestinginks
 ==================================================
 
+author: kazurayam
+date: April, 2019
+
 This document describes:
 1. how to import resources of "VisualTestingInKatalonStudio" into your own Katalon Studio project
 2. how to run the Example of Visual Testing
-3. how to start developing your own screenshot-comparison testing
 
 ## Prerequisite
 
@@ -52,7 +54,7 @@ TheProject
 You want to create `%TheProject%\build.gradle` file. The content should be as follows:
 ```
 plugins {
-    id "com.github.kazurayam.visualtestinginks" version="0.1.3"
+  id "com.github.kazurayam.visualtestinginks"  version="0.1.3"
 }
 vt.version = '1.10.0'
 ```
@@ -245,8 +247,47 @@ You can find the list of URL of dependencies in the source of  [com.kazurayam.vi
 
 ## How to make Katalon Studio aware of imported resources
 
+After you imported the resources, you start Katalon Studio and the `TheProject`. The you will find the project is not ready to run screenshot-comparison tests.
+
+Please select `Keywords` in the Tests Explorer in Katalon Studio GUI. You may expect the imported packages to appear here, but in fact not. It will show the default package with empty contents.
+![empty keywords](../docs/images/userguide/keywords_defaultPackageOnly.png)
+
+Katalon Studio needs a trigger to get aware of imported resources into the project space.
+
+In the tool bar of Katalon Studio GUI, please choose `Project > Reflesh`.
+![Reflesh](../docs/images/userguide/Project_Reflesh.png)
+
+Do Reflesh **twice**. I do not know why one click of Reflesh button is not enough. Just do it 2 times. Then the imported keywords should come up.
+![keywords_recognized](../docs/images/userguide/keywords_recognized.png)
+
+Now all of imported Groovy sources are compiled into *.class format and have got ready to run.
+
 ## How to run the example `CURA` tests
 
-### Twins --- comparing a pair of hosts of an AUT
+Now you are able to run the example tests in `TheProject`.
 
-### Chronos --- comparing the current AUT against a set of screenshots previously taken
+### Demo of Twins test
+
+`Test Suites/CURA/Execute_twins` takes screenshots of 2 URLs.
+1. [`http://demoaut.katalon.com/`](http://demoaut.katalon.com/)
+2. [`http://demoauto-mimic.kazurayam.com/`](http://demoaut-mimic.kazurayam.com/)
+
+These 2 URL has different host name. The pages look similar but not quite identical.
+
+After screenshots are taken, the `Execute_twins`
+![Execute_twins](../docs/images/userguide/Execute_twins.png) script compares the screenshot of `demoaut-mimic.kazurayam.com` against `demoaut.katalon.com` to find visual differences. When done, the difference is reported in the `%TheProject%\Materials\index.html` file. Please have a look at it with any browser of your choice.
+
+### Demo of Chronos test
+
+`Test Suites/CURA/Execute_chronos` takes a set of screenshots of a single URL:
+1. [`http://demoauto-mimic.kazurayam.com/`](http://demoaut-mimic.kazurayam.com/)
+
+After current screenshots are taken, the `Execute_chronos` script makes backup of the current screenshots into the `Storage` directory. And also the script looks up another set of previous screenshots and copies it from the `Storage` directory  to `Materials` directory. Finally the script compares the current set of screenshots against the one previously taken. The report is found at `%TheProject%\Materials\index.html` file.
+
+The `Chronos` test verifies how much the current Application Under Test is different from the previous record. The `Chronos` test is usefull for asserting the status of AUT before/after any administrative changes (application software upgrades, OS patches, DB data changes, network device reconfiguration, etc).
+
+ ![Execute_chronos](../docs/images/userguide/Execute_chronos.png)
+
+## How to develop your own Visual Testing?
+
+This issue is explained in the [README of VisualTestingInKatalonStudio project](https://github.com/kazurayam/VisualTestingInKatalonStudio).
