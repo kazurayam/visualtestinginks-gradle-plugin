@@ -55,10 +55,6 @@ $ ./gradlew publishPlugins
 
 ## 2. Distributing VisualTestingInKatalonStudio
 
-
-### Task tree
-
-
 In the VisualTestingInKatalonStudio project, kazurayam created [`build.gradle`](https://github.com/kazurayam/VisualTestingInKatalonStudio/blob/master/build.gradle) file as follows:
 ```
 plugins {
