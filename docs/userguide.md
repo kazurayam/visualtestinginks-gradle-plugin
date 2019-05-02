@@ -33,6 +33,10 @@ I will write `%TheProject%` to mean the project directory for short.
 
 ### 2) Inject Gradlew tool into Katalon project
 
+If you are willing to install JDK8 and Gradle Build tool, just follow the official instruction at https://gradle.org/install/.
+
+Here I will describe alternative way of using [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+
 Using browser, open https://github.com/kazurayam/VisualTestingInKatalonStudio/releases
 
 Download `distributable-gradlew-X.X.X.zip` from the Releases page. Here `X.X.X` means the latest version number of the *VisualTestingInKatalonStudio* project. As of April 2019, X.X.X is `1.10.0`.
@@ -54,8 +58,9 @@ TheProject
 You want to create `%TheProject%\build.gradle` file. The content should be as follows:
 ```
 plugins {
-  id "com.github.kazurayam.visualtestinginks"  version="0.1.3"
+  id "com.github.kazurayam.visualtestinginks" version "0.1.3"
 }
+
 vt.version = '1.10.0'
 ```
 
@@ -72,19 +77,16 @@ A working example of `build.gradle` file in a Katalon Studio project is here: ht
 On Mac and Linux, possibly you have JDK bundled in the OS, so you can just execute in the command line:
 ```
 $ cd $TheProject
+$ dos2unix ./gradlew
 $ chmod +x ./gradlew
 $ ./gradlew enableVisualTesting
 ```
-
-If you are on Windows and have JDK8 or higher already installed, the you can execute in the Command Prompt:
-```
-$ cd $TheProject
-$ .\gradlew enableVisualTesting
-```
+A comment on this:
+1. `doc2unix` command is required to convert the EndOfLine character CR+LF to LF (Windows style to Unix style)
 
 #### On Windows with JDK installed
 
-Almost the same as Mac, you can do:
+Almost the same as Mac, you can do on Windows:
 
 ```
 $ cd %TheProject%
@@ -188,40 +190,38 @@ The `enableVisualTesting` task will do 3 things:
 │   └── default.glbl
 ├── Scripts
 │   ├── CURA
-│   │   ├── ImageDiff_chronos
-│   │   ├── ImageDiff_twins
-│   │   ├── Login
-│   │   ├── restorePrevisousScreenshots
-│   │   ├── test
-│   │   │   ├── LoginTest
-│   │   │   └── TC1
-│   │   └── visitSite
+│       ├── ImageDiff_chronos
+│       ├── ImageDiff_twins
+│       ├── Login
+│       ├── restorePrevisousScreenshots
+│       ├── test
+│       │   ├── LoginTest
+│       │   └── TC1
+│       └── visitSite
 ├── Test Cases
 │   ├── CURA
-│   │   ├── ImageDiff_chronos.tc
-│   │   ├── ImageDiff_twins.tc
-│   │   ├── Login.tc
-│   │   ├── restorePrevisousScreenshots.tc
-│   │   ├── test
-│   │   │   ├── LoginTest.tc
-│   │   │   └── TC1.tc
-│   │   └── visitSite.tc
-├── Test Listeners
-│   └── VTListener.groovy
+│       ├── ImageDiff_chronos.tc
+│       ├── ImageDiff_twins.tc
+│       ├── Login.tc
+│       ├── restorePrevisousScreenshots.tc
+│       ├── test
+│       │   ├── LoginTest.tc
+│       │   └── TC1.tc
+│       └── visitSite.tc
 ├── Test Suites
 │   ├── CURA
-│   │   ├── Execute_chronos.ts
-│   │   ├── Execute_chronos_headless.ts
-│   │   ├── Execute_twins.ts
-│   │   ├── Execute_twins_headless.ts
-│   │   ├── chronos_capture.groovy
-│   │   ├── chronos_capture.ts
-│   │   ├── chronos_exam.groovy
-│   │   ├── chronos_exam.ts
-│   │   ├── twins_capture.groovy
-│   │   ├── twins_capture.ts
-│   │   ├── twins_exam.groovy
-│   │   └── twins_exam.ts
+│       ├── Execute_chronos.ts
+│       ├── Execute_chronos_headless.ts
+│       ├── Execute_twins.ts
+│       ├── Execute_twins_headless.ts
+│       ├── chronos_capture.groovy
+│       ├── chronos_capture.ts
+│       ├── chronos_exam.groovy
+│       ├── chronos_exam.ts
+│       ├── twins_capture.groovy
+│       ├── twins_capture.ts
+│       ├── twins_exam.groovy
+│       └── twins_exam.ts
 ├── vt-run-CURA-chronos.bat
 ├── vt-run-CURA-chronos.sh
 ├── vt-run-CURA-twins.bat
