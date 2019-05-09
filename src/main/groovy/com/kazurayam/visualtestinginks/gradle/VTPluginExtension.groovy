@@ -5,9 +5,9 @@ public class VTPluginExtension {
     /**
      *  The version of the "VisualTestingInKatalonStudio" project.
      *  The default is '0.0.0'. If the version is left as default,
-     *  :distributables task will create 
+     *  :distributables task will create
      *      <PRE>build/dist/vt-components-0.0.0.zip</PRE>
-     *  file, and :importVTCompnents task will try to download URL of 
+     *  file, and :importVTCompnents task will try to download URL of
      *      <PRE>https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download/0.0.0/vt-components-0.0.0.zip</PRE>
      *  which does not exists, so the task invokation will fail.
      *  Therefore the vt.version should alwasy be overridden by build.grade, for example:
@@ -22,7 +22,7 @@ public class VTPluginExtension {
         'http://central.maven.org/maven2/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar',
         'https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar',
         'https://github.com/kazurayam/ksbackyard/releases/download/0.36.0/ksbackyard.jar',
-        'https://github.com/kazurayam/Materials/releases/download/0.68.0/Materials-0.68.0.jar'
+        'https://github.com/kazurayam/Materials/releases/download/0.68.2/Materials-0.68.2.jar'
     ]
 
     String repositoryUrlPrefix = "https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download"
