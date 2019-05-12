@@ -39,7 +39,7 @@ Here I will describe alternative way of using [Gradle Wrapper](https://docs.grad
 
 Using browser, open https://github.com/kazurayam/VisualTestingInKatalonStudio/releases
 
-Download `distributable-gradlew-X.X.X.zip` from the Releases page. Here `X.X.X` means the latest version number of the *VisualTestingInKatalonStudio* project. As of April 2019, X.X.X is `1.10.0`.
+Download `distributable-gradlew-X.X.X.zip` from the Releases page. Here `X.X.X` means the latest version number of the *VisualTestingInKatalonStudio* project. As of May 2019, X.X.X is `1.10.1`.
 
 Unzip the downloaded file and deploy the contained files into `%TheProject%`. You will find the following files and a directory added into the directory: ![gradlew_introduced](../docs/images/userguide/gradlew_introduced.png)
 
@@ -56,13 +56,18 @@ TheProject
 ### 3) Create build.gradle in your project root dir
 
 You want to create `%TheProject%\build.gradle` file. The content should be as follows:
+
+
+
 ```
 plugins {
-  id "com.github.kazurayam.visualtestinginks" version "0.1.4"
+  id "com.github.kazurayam.visualtestinginks" version "0.1.5"
 }
 
-vt.version = '1.10.0'
+vt.version = '1.10.1'
 ```
+
+
 
 The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version as of April 2019 is `0.1.3` but it may change in future. Please specify the lastest version of the time.
 
