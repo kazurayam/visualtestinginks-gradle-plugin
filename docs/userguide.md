@@ -58,7 +58,7 @@ TheProject
 You want to create `%TheProject%\build.gradle` file. The content should be as follows:
 ```
 plugins {
-  id "com.github.kazurayam.visualtestinginks" version "0.1.3"
+  id "com.github.kazurayam.visualtestinginks" version "0.1.4"
 }
 
 vt.version = '1.10.0'
@@ -234,7 +234,7 @@ The `enableVisualTesting` task will do 3 things:
   ```
   .
   ├── Drivers
-  │   ├── vt-Materials-0.68.0.jar
+  │   ├── vt-Materials-0.68.2.jar
   │   ├── vt-ashot-1.5.4.jar
   │   ├── vt-commons-lang3-3.6.jar
   │   ├── vt-commons-math3-3.6.1.jar
