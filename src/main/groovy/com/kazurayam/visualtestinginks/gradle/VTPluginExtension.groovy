@@ -22,7 +22,7 @@ public class VTPluginExtension {
         'http://central.maven.org/maven2/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar',
         'https://github.com/kazurayam/junit4ks/releases/download/1.6/junit4ks-all.jar',
         'https://github.com/kazurayam/ksbackyard/releases/download/0.36.0/ksbackyard.jar',
-        'https://github.com/kazurayam/Materials/releases/download/0.70.0/Materials-0.70.2.jar'
+        'https://github.com/kazurayam/Materials/releases/download/0.70.6/Materials-0.70.6.jar'
     ]
 
     String repositoryUrlPrefix = "https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download"
