@@ -2,7 +2,8 @@ User Guide of Gradle Plugin com.github.visualtestinginks
 ==================================================
 
 author: kazurayam
-date: April, 2019
+1st published at: April, 2019.
+updates at 25,May 2019.
 
 This document describes:
 1. how to import resources of "VisualTestingInKatalonStudio" into your own Katalon Studio project
@@ -64,10 +65,10 @@ You want to create `%TheProject%\build.gradle` file. The content should be as fo
 
 ```
 plugins {
-  id "com.github.kazurayam.visualtestinginks" version "0.1.12"
+  id "com.github.kazurayam.visualtestinginks" version "0.1.14"
 }
 
-vt.version = '1.10.4'
+vt.version = '1.10.5'
 ```
 
 
