@@ -11,7 +11,9 @@ plugins {
 
 group = 'com.kazurayam'
 jar.baseName = 'visualtestinginks-gradle-plugin'
+
 version = '0.1.16'
+
 
 
 
