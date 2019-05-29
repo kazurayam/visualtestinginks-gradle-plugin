@@ -88,6 +88,7 @@ class VTPlugin implements Plugin<Project> {
                         include "Object Repository/CURA/**"
                         include "Test Suites/CURA/**"
                         include "Scripts/CURA/**"
+			include "vt-config.json"
                         include "vt-run-CURA*"
                     }
                 })
