@@ -6,7 +6,7 @@ class Constants {
 
     //static final String VT_VCS_URL_PREFIX  = "https://github.com/kazurayam/VisualTestingInKatalonStudio/releases/download"
 
-    static final String VT_EXTERNALLIBRARY_PREFIX = 'vt-'
+    static final String VT_EXTERNAL_LIBRARY_PREFIX = 'VT-'
 
     static final String VT_DIST_GRADLEW_PREFIX = 'distributable-gradlew'
 

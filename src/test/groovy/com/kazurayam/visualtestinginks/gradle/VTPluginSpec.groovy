@@ -21,6 +21,8 @@ class VTPluginSpec extends Specification {
     private File buildFile
     private Path fixtureProject
 
+    private static final String VT_VERSION = '1.10.8'
+
     def setup() {
         buildFile = testProjectDir.newFile("build.gradle")
         fixtureProject = Paths.get('.', 'src', 'test', 'resources', 'fixture', 'vt-project')
@@ -31,12 +33,12 @@ class VTPluginSpec extends Specification {
      */
     def ":enableVisualTesting task depends on :importVTComponents, :importVTExample"() {
         given:
-        buildFile << '''
+        buildFile << """
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
-        vt.version = '1.10.0'
-        '''
+        vt.version = '${VT_VERSION}'
+        """
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
@@ -50,12 +52,12 @@ class VTPluginSpec extends Specification {
 
     def ":importVTComponents task downloads and extracts the zip"() {
         setup:
-        buildFile << '''
+        buildFile << """
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
-        vt.version = '1.10.0'
-        '''
+        vt.version = '${VT_VERSION}'
+        """
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
@@ -64,7 +66,7 @@ class VTPluginSpec extends Specification {
             .build()
         listDirectory(testProjectDir.root.toPath())
         then:
-        result.output.contains("${Constants.VT_DIST_COMPONENTS_PREFIX}-1.10.0.zip")
+        result.output.contains("${Constants.VT_DIST_COMPONENTS_PREFIX}-${VT_VERSION}.zip")
         result.task(":importVTComponents").outcome == SUCCESS
         when:
         Path testListenersDir = testProjectDir.root.toPath().resolve('Test Listeners')
@@ -75,12 +77,12 @@ class VTPluginSpec extends Specification {
 
     def ":importVTExample task downloads and extracts the zip"() {
         setup:
-        buildFile << '''
+        buildFile << """
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
-        vt.version = '1.10.0'
-        '''
+        vt.version = '${VT_VERSION}'
+        """
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
@@ -89,7 +91,7 @@ class VTPluginSpec extends Specification {
             .build()
         listDirectory(testProjectDir.root.toPath())
         then:
-        result.output.contains("vt-example-1.10.0.zip")
+        result.output.contains("${Constants.VT_DIST_EXAMPLE_PREFIX}-${VT_VERSION}.zip")
         result.task(":importVTExample").outcome == SUCCESS
         when:
         Path testCasesDir = testProjectDir.root.toPath().resolve('Test Cases')
@@ -104,13 +106,13 @@ class VTPluginSpec extends Specification {
 
     def "let us have a look at taskTree of the :enableVisualTesting task"() {
         setup:
-        buildFile << '''
+        buildFile << """
             plugins {
                 id 'com.github.kazurayam.visualtestinginks'
                 id 'com.dorongold.task-tree' version '1.3.1'
             }
-            vt.version = '1.10.0'
-        '''
+            vt.version = '${VT_VERSION}'
+        """
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
@@ -128,11 +130,11 @@ class VTPluginSpec extends Specification {
     @Ignore
     def ":greeting task prints Hi from VTPlugin"() {
         given:
-        buildFile << '''
+        buildFile << """
         plugins {
             id 'com.github.kazurayam.visualtestinginks'
         }
-        '''
+        """
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir.root)
