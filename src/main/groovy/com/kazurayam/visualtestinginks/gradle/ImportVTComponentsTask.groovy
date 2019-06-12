@@ -26,13 +26,16 @@ class ImportVTComponentsTask extends DefaultTask {
             dest outFile
             overwrite true
         })
+        project.with {
+            delete fileTree(dir: "Drivers", include: "${Constants.VT_EXTERNAL_LIBRARY_PREFIX}*.jar")
+        }
         project.copy {
             from project.zipTree(outFile)
             into project.projectDir
         }
         Helpers.deleteDirectory(tempDir)
     }
-    
+
     void diagnoze(String sourceURL, File outFile) {
         println "downloading sourceURL=${sourceURL} into ${outFile.toString()}"
         println "System.getProperty('http.proxyHost')=${System.getProperty('http.proxyHost')}"
