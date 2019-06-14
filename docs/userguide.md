@@ -65,10 +65,10 @@ You want to create `%TheProject%\build.gradle` file. The content should be as fo
 
 ```
 plugins {
-  id "com.github.kazurayam.visualtestinginks" version "0.1.20"
+  id "com.github.kazurayam.visualtestinginks" version "0.1.21"
 }
 
-vt.version = '1.10.8'
+vt.version = '1.10.9'
 ```
 
 
