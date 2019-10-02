@@ -68,7 +68,7 @@ plugins {
   id "com.github.kazurayam.visualtestinginks" version "0.1.21"
 }
 
-vt.version = '1.11.0'
+vt.version = '1.12.0'
 ```
 
 
