@@ -3,7 +3,7 @@ User Guide of Gradle Plugin com.github.visualtestinginks
 
 author: kazurayam
 1st published at: April, 2019.
-updates at 25,May 2019.
+updates at 06, Dec 2019.
 
 This document describes:
 1. how to import resources of "VisualTestingInKatalonStudio" into your own Katalon Studio project
@@ -40,7 +40,7 @@ Here I will describe alternative way of using [Gradle Wrapper](https://docs.grad
 
 Using browser, open https://github.com/kazurayam/VisualTestingInKatalonStudio/releases
 
-Download `distributable-gradlew-X.X.X.zip` from the Releases page. Here `X.X.X` means the latest version number of the *VisualTestingInKatalonStudio* project. As of Dec 2019, X.X.X is `1.12.1`.
+Download `distributable-gradlew-X.X.X.zip` from the Releases page. Here `X.X.X` means the latest version number of the *VisualTestingInKatalonStudio* project. As of Dec 2019, X.X.X is `1.13.0`.
 
 Unzip the downloaded file and deploy the contained files into `%TheProject%`. You will find the following files and a directory added into the directory: ![gradlew_introduced](../docs/images/userguide/gradlew_introduced.png)
 
@@ -68,7 +68,7 @@ plugins {
   id "com.github.kazurayam.visualtestinginks" version "0.1.21"
 }
 
-vt.version = '1.12.1'
+vt.version = '1.13.0'
 ```
 
 
@@ -79,7 +79,7 @@ vt.version = '1.12.1'
 The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version as of Oct 2019 is `0.1.21` but it may change in future. Please specify the lastest version of the time.
 
 
-The line of `vt.version = '1.12.1'` specifies the version of *VisualTestingInKatalonStudio* project shared at https://github.com/kazurayam/VisualTestingInKatalonStudio/releases. The latest version as of Dec 2019 is `1.12.1` but it may change in future. Please specifiy the latest version of the time.
+The line of `vt.version = '1.13.0'` specifies the version of *VisualTestingInKatalonStudio* project shared at https://github.com/kazurayam/VisualTestingInKatalonStudio/releases. The latest version as of Dec 2019 is `1.13.0` but it may change in future. Please specifiy the latest version of the time.
 
 
 
