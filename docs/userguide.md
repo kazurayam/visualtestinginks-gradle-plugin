@@ -68,7 +68,7 @@ plugins {
   id "com.github.kazurayam.visualtestinginks" version "0.1.21"
 }
 
-vt.version = '1.12.0'
+vt.version = '1.13.1'
 ```
 
 
@@ -78,7 +78,7 @@ vt.version = '1.12.0'
 
 The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version as of Oct 2019 is `0.1.21` but it may change in future. Please specify the lastest version of the time.
 
-The line of `vt.version = '1.12.0'` specifies the version of *VisualTestingInKatalonStudio* project shared at https://github.com/kazurayam/VisualTestingInKatalonStudio/releases. The latest version as of Oct 2019 is `1.12.0` but it may change in future. Please specifiy the latest version of the time.
+The line of `vt.version = '1.13.1'` specifies the version of *VisualTestingInKatalonStudio* project shared at https://github.com/kazurayam/VisualTestingInKatalonStudio/releases. The latest version as of Jan 2020 is `1.13.1` but it may change in future. Please specifiy the latest version of the time.
 
 A working example of `build.gradle` file in a Katalon Studio project is here: https://github.com/kazurayam/visualtestinginks-gradle-plugin-test-application/blob/master/build.gradle .
 
