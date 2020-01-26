@@ -3,7 +3,7 @@ User Guide of Gradle Plugin com.github.visualtestinginks
 
 author: kazurayam
 1st published at: April, 2019.
-updates at 06, Dec 2019.
+updates at 26, Jan 2020.
 
 This document describes:
 1. how to import resources of "VisualTestingInKatalonStudio" into your own Katalon Studio project
@@ -67,7 +67,7 @@ You want to create `%TheProject%\build.gradle` file. The content should be as fo
 plugins {
   id "com.github.kazurayam.visualtestinginks" version "0.1.21"
 }
-vt.version = '1.13.1'
+vt.version = '1.14.0'
 ```
 
 
@@ -77,8 +77,7 @@ vt.version = '1.13.1'
 
 The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version as of Oct 2019 is `0.1.21` but it may change in future. Please specify the lastest version of the time.
 
-
-The line of `vt.version = '1.13.1'` specifies the version of *VisualTestingInKatalonStudio* project shared at https://github.com/kazurayam/VisualTestingInKatalonStudio/releases. The latest version as of Jan 2020 is `1.13.1` but it may change in future. Please specifiy the latest version of the time.
+The line of `vt.version = ...` specifies the version of *VisualTestingInKatalonStudio* project shared at https://github.com/kazurayam/VisualTestingInKatalonStudio/releases.
 
 A working example of `build.gradle` file in a Katalon Studio project is here: https://github.com/kazurayam/visualtestinginks-gradle-plugin-test-application/blob/master/build.gradle .
 
