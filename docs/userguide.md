@@ -71,11 +71,14 @@ vt.version = '1.17.1'
 ```
 
 
+The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version as of
+
+8th of May 2020 is `1.17.1`
 
 
+but it may change in future. Please specify the lastest version of the time.
 
 
-The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version as of Oct 2019 is `0.1.21` but it may change in future. Please specify the lastest version of the time.
 
 The line of `vt.version = ...` specifies the version of *VisualTestingInKatalonStudio* project shared at https://github.com/kazurayam/VisualTestingInKatalonStudio/releases.
 
