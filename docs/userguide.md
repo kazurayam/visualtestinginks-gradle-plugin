@@ -58,29 +58,16 @@ TheProject
 
 You want to create `%TheProject%\build.gradle` file. The content should be as follows:
 
-
-
-
-
-
 ```
 plugins {
   id "com.github.kazurayam.visualtestinginks" version "0.1.21"
 }
-vt.version = '1.17.1'
+vt.version = '1.17.3'
 ```
 
+The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version of the plugin as of 16th of June 2020 is `0.1.21` but it may change in future. Please specify the lastest version of the time.
 
-The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version as of
-
-8th of May 2020 is `1.17.1`
-
-
-but it may change in future. Please specify the lastest version of the time.
-
-
-
-The line of `vt.version = ...` specifies the version of *VisualTestingInKatalonStudio* project shared at https://github.com/kazurayam/VisualTestingInKatalonStudio/releases.
+The line of `vt.version = ...` is most important. This specifies the version of *VisualTestingInKatalonStudio* project. Please check https://github.com/kazurayam/VisualTestingInKatalonStudio/releases to find out the most up-to-date version.
 
 A working example of `build.gradle` file in a Katalon Studio project is here: https://github.com/kazurayam/visualtestinginks-gradle-plugin-test-application/blob/master/build.gradle .
 
@@ -109,9 +96,9 @@ $ .\gradlew enableVisualTesting
 
 #### On Windows without JDK installed
 
-If you are on Windows and have no JDK installed, then you can use the JRE bundled in the Katalon Studio. Here I assume you have installed the Katalon studio at `C:\Users\yourName\Katalon-Studio-6.1.2`, then you can do:
+If you are on Windows and have no JDK installed, then you can use the JRE bundled in the Katalon Studio. Here I assume you have installed the Katalon studio at `C:\Users\yourName\Katalon-Studio-7.5.5`, then you can do:
 ```
-$ set KATALONSTUDIO_HOME=C:\Users\yourName\Katalon-Studio-6.1.2
+$ set KATALONSTUDIO_HOME=C:\Users\yourName\Katalon-Studio-7.5.5
 $ cd %TheProject%
 $ .\gradlewks enableVisualTesting
 ```
@@ -305,3 +292,4 @@ The `Chronos` test verifies how much the current Application Under Test is diffe
 ## How to develop your own Visual Testing?
 
 This issue is explained in the [README of VisualTestingInKatalonStudio project](https://github.com/kazurayam/VisualTestingInKatalonStudio).
+
