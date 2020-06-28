@@ -3,7 +3,8 @@ User Guide of Gradle Plugin com.github.visualtestinginks
 
 author: kazurayam
 1st published at: April, 2019.
-updates at 26, Jan 2020.
+updates at 29, Dec 2020.
+
 
 This document describes:
 1. how to import resources of "VisualTestingInKatalonStudio" into your own Katalon Studio project
@@ -62,10 +63,13 @@ You want to create `%TheProject%\build.gradle` file. The content should be as fo
 plugins {
   id "com.github.kazurayam.visualtestinginks" version "0.1.21"
 }
-vt.version = '1.17.3'
+
+vt.version = '1.19.1'
+
 ```
 
 The Gradle Plugin `com.github.kazurayam.visualtestinginks` is shared at https://plugins.gradle.org/plugin/com.github.kazurayam.visualtestinginks. The latest version of the plugin as of 16th of June 2020 is `0.1.21` but it may change in future. Please specify the lastest version of the time.
+
 
 The line of `vt.version = ...` is most important. This specifies the version of *VisualTestingInKatalonStudio* project. Please check https://github.com/kazurayam/VisualTestingInKatalonStudio/releases to find out the most up-to-date version.
 
@@ -235,13 +239,12 @@ The `enableVisualTesting` task will do 3 things:
   ```
   .
   ├── Drivers
-  │   ├── vt-Materials-0.68.2.jar
+  │   ├── vt-Materials-0.77.1.jar
   │   ├── vt-ashot-1.5.4.jar
   │   ├── vt-commons-lang3-3.6.jar
   │   ├── vt-commons-math3-3.6.1.jar
   │   ├── vt-junit4ks-all.jar
-  │   ├── vt-ksbackyard.jar
-  │   └── vt-thumbnailator-0.4.8.jar
+  │   ├── vt-ksbackyard-0.40.0.jar
   ```
 
 You can find the list of URL of dependencies in the source of  [com.kazurayam.visualtestinginks.gradle.VTPluginExtension](https://github.com/kazurayam/visualtestinginks-gradle-plugin/blob/master/src/main/groovy/com/kazurayam/visualtestinginks/gradle/VTPluginExtension.groovy)
@@ -292,4 +295,3 @@ The `Chronos` test verifies how much the current Application Under Test is diffe
 ## How to develop your own Visual Testing?
 
 This issue is explained in the [README of VisualTestingInKatalonStudio project](https://github.com/kazurayam/VisualTestingInKatalonStudio).
-
